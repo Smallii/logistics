@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      我
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- 输入账号密码表单 -->
+  <ion-item>
+    <ion-label position="floating">用户名：</ion-label>
+    <ion-input clearInput></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">密&nbsp;&nbsp;&nbsp;&nbsp;码：</ion-label>
+    <ion-input clearInput></ion-input>
+  </ion-item>
+  <!-- Round -->
+  <ion-button shape="round" expand="block" (click)="presentModal()">登录</ion-button>
+  <ion-button color="primary" shape="round" fill="outline" expand="block">注册</ion-button>
+</ion-content>
