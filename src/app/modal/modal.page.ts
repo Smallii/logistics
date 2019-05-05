@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { ModalController, NavParams, LoadingController, ToastController } from '@ionic/angular';
 // 加载Http请求模块
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 // 加载本地存储模块
 import { Storage } from '@ionic/storage';
 
@@ -14,7 +14,7 @@ export class ModalPage implements OnInit {
   @Input() userName: string;
   @Input() name: string;
   @Input() userPwd: string;
-    public user: any;
+    public result: any;
     public token: string;
   private heroesUrl = 'http://10.64.3.31:8099';  // URL to web api
   // private heroesUrlPost = 'http://10.64.3.31:80/app/user';
@@ -47,28 +47,51 @@ export class ModalPage implements OnInit {
   }
 
   async getData() {
-    console.log('发送GET请求');
     const loading = await this.loadingController.create({
       message: '获取数据...'
     });
+      this.storage.get('token').then((token) => {
+          localStorage.setItem('token', token);
+      });
+      this.token = localStorage.getItem('token');
+      const httpOptions = {
+          headers: new HttpHeaders({ 'Authorization': this.token })
+      };
     await loading.present();
-    this.http.get(this.heroesUrl)
+    this.http.get(this.heroesUrl + '/user/getUserAllpub', httpOptions)
         .subscribe((data) => {
             console.log('成功', data);
             loading.dismiss();
-            this.presentToast('获取数据成功');
-        }, error => {
-            this.storage.set('token', 'www');
+            this.storage.get('token').then((token) => {
+                this.presentToast(token);
+            });
+        }, response => {
+            loading.dismiss();
+            // console.log('失败');
+            }, () => {
             loading.dismiss();
             this.presentToast('请求超时');
-            this.storage.get('token').then((token) => {
-                console.log('Me: Hey, ' + token + '! You have a very nice name.');
-            });
         });
   }
 
     /**
-     * 登录用户
+     * 获取token
+     */
+    getToken(): Promise<string> {
+        return this.storage.get('token').then((__zone_symbol__value) => {
+            console.log('7878', __zone_symbol__value);
+            return __zone_symbol__value;
+        });
+    }
+
+  // getToken() {
+  //     this.storage.get('token').then((token) => {
+  //         return this.token = token;
+  //     });
+  // }
+
+    /**
+     * 登录
      */
     async loginUser() {
         console.log('输入的用户名', this.userName);
@@ -76,40 +99,35 @@ export class ModalPage implements OnInit {
         const loading = await this.loadingController.create({
             message: '登录中...'
         });
-        const headers = {
-            headers: {
-                'Authorization': 'Basic ',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        };
         await loading.present();
         const request = {
             username: this.userName,
             password: this.userPwd
         };
-        this.http.post(this.heroesUrl + '/login', null , { params: request, observe: 'response' })
-            .subscribe((res) => {
-                this.user = res.body;
-                console.log(res.body);
+        this.http.post(this.heroesUrl + '/login', null, { params: request, observe: 'response' })
+            .subscribe((val) => {
+                this.result = val.body;
                 // 获取headers中的token
-                this.token = res.headers.get('Authorization');
+                this.token = val.headers.get('Authorization');
                 console.log('Token：', this.token);
                 // console.log(this.user);
                 loading.dismiss();
-                if (res.body.meta.status === 800) {
+                if (this.result.meta.status === 800) {
                     this.storage.set('token', this.token);
-                    this.presentToast(res.body.meta.message);
-                    alert(this.storage.get('token'));
+                    this.presentToast(this.result.meta.message);
                 } else {
-                    this.presentToast(this.user.msg);
+                    this.presentToast(this.result.meta.message);
                 }
-
-            }
-            , error => {
+            },
+                response => {
                     loading.dismiss();
-                    this.presentToast('请求超时');
-                // this.presentToast('登录失败');
-            });
+                    this.presentToast(response.error.meta.message);
+                },
+                () => {
+                    loading.dismiss();
+                    console.log('The POST observable is now completed.');
+                }
+            );
     }
 
     /**
@@ -129,16 +147,21 @@ export class ModalPage implements OnInit {
         name: this.name,
         password: this.userPwd
     };
-    this.http.post(this.heroesUrl + '/register', null, { params: request })
+    this.http.post(this.heroesUrl + '/user/register', null, { params: request })
         .subscribe((data) => {
             console.log(data);
             loading.dismiss();
             this.presentToast('注册成功');
-        }, function (error) {
-            console.log(error);
-            loading.dismiss();
-            this.presentToast('未知错误');
-        });
+        },
+            response => {
+                loading.dismiss();
+                this.presentToast(response.error.meta.message);
+            },
+            () => {
+                loading.dismiss();
+                console.log('The POST observable is now completed.');
+            }
+        );
   }
 
     async presentToast(content: string) {
