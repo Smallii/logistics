@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 
-import {LoadingController, ToastController} from '@ionic/angular';
+import {LoadingController, ToastController, IonInfiniteScroll} from '@ionic/angular';
 // 加载Http请求模块
 import { HttpClient } from '@angular/common/http';
 
@@ -10,13 +10,63 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
+  @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   private heroesUrl = 'http://10.64.3.31:80/sys/user/list';  // URL to web api
   public simulationArray: any;
+  public data: any;
+  public items: any;
   constructor(private http: HttpClient,
               public loadingController: LoadingController,
               public toastController: ToastController) {
-    this.getData();
+
+    this.items = [
+      {title: 'item1', name: 'item1'},
+      {title: 'item2', name: 'item2'},
+      {title: 'item3', name: 'item3'},
+      {title: 'item4', name: 'item4'},
+      {title: 'item5', name: 'item5'},
+      {title: 'item6', name: 'item6'}
+    ];
+
+    // this.getData();
     // componentProps can also be accessed at construction time using NavParams
+  }
+
+  removeItem(item) {
+    for (let i = 0; i < this.items.length; i++) {
+      if (this.items[i] === item) {
+        this.items.splice(i, 1);
+      }
+    }
+  }
+
+  doRefresh(event) {
+    console.log('Begin async operation');
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
+  }
+
+  loadData(event) {
+    setTimeout(() => {
+      console.log('Done');
+      event.target.complete();
+      // App logic to determine if all data is loaded
+      // and disable the infinite scroll
+      // if (this.data.length === 1000) {
+      //   event.target.disabled = true;
+      // }
+    }, 500);
+  }
+
+  toggleInfiniteScroll() {
+    this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
+  }
+
+  segmentChanged(ev: any) {
+    console.log('Segment changed', ev);
   }
 
   async getData() {

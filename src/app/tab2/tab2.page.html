@@ -1,15 +1,102 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      标签页2-列表
+      订单
     </ion-title>
   </ion-toolbar>
 </ion-header>
+<!-- tab切换 -->
+<ion-toolbar>
+    <ion-segment (ionChange)="segmentChanged($event)">
+        <ion-segment-button value="1" checked>
+            <!--      <ion-icon name="paper-plane"></ion-icon>-->
+            <ion-label>进行中</ion-label>
+        </ion-segment-button>
+        <ion-segment-button href="#dogs2" value="2">
+            <!--      <ion-icon name="checkmark"></ion-icon>-->
+            <ion-label>已完成</ion-label>
+        </ion-segment-button>
+        <ion-segment-button href="#dogs3" value="3">
+            <!--      <ion-icon name="alert"></ion-icon>-->
+            <ion-label>已取消</ion-label>
+        </ion-segment-button>
+        <ion-segment-button href="#dogs4" value="4">
+            <!--      <ion-icon name="clipboard"></ion-icon>-->
+            <ion-label>全部</ion-label>
+        </ion-segment-button>
+    </ion-segment>
+</ion-toolbar>
+
 
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let s of simulationArray">
-      <ion-label>{{s.username}}</ion-label>
-    </ion-item>
-  </ion-list>
+<!--    <ion-button (click)="toggleInfiniteScroll()" expand="block">-->
+<!--        Toggle Infinite Scroll-->
+<!--    </ion-button>-->
+  <!-- Scrollable Segment   scrollable -->
+
+
+
+    <!-- 默认的下拉刷新样式 -->
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+<!--  <ion-list>-->
+<!--&lt;!&ndash;    <ion-item *ngFor="let s of simulationArray">&ndash;&gt;-->
+<!--&lt;!&ndash;      <ion-label>{{s.username}}</ion-label>&ndash;&gt;-->
+<!--&lt;!&ndash;    </ion-item>&ndash;&gt;-->
+<!--      <ion-item>-->
+<!--          <ion-label>Input</ion-label>-->
+<!--          <ion-input></ion-input>-->
+<!--      </ion-item>-->
+<!--      <ion-item>-->
+<!--          <ion-label>Toggle</ion-label>-->
+<!--          <ion-toggle slot="end"></ion-toggle>-->
+<!--      </ion-item>-->
+<!--      <ion-item>-->
+<!--          <ion-label>Radio</ion-label>-->
+<!--          <ion-radio slot="end"></ion-radio>-->
+<!--      </ion-item>-->
+<!--      <ion-item>-->
+<!--          <ion-label>Checkbox</ion-label>-->
+<!--          <ion-checkbox slot="start"></ion-checkbox>-->
+<!--      </ion-item>-->
+<!--  </ion-list>-->
+
+    <ion-list>
+        <!-- Multi-line sliding item with icon options on both sides -->
+        <ion-item-sliding *ngFor="let item of items">
+            <ion-item href="#">
+                <ion-label>
+                    <h2>{{item.title}}</h2>
+                    <p>{{item.title}}</p>
+                    <p>{{item.name}}</p>
+                </ion-label>
+                <ion-note slot="end">
+                    {{item.name}}
+                </ion-note>
+            </ion-item>
+
+            <ion-item-options side="start">
+                <ion-item-option>
+                    <ion-icon slot="icon-only" name="heart"></ion-icon>
+                </ion-item-option>
+            </ion-item-options>
+
+            <ion-item-options side="end">
+                <ion-item-option (click)="removeItem(item)" color="danger">
+                    <ion-icon slot="icon-only" name="trash"></ion-icon>
+                </ion-item-option>
+<!--                <ion-item-option>-->
+<!--                    <ion-icon slot="icon-only" name="star"></ion-icon>-->
+<!--                </ion-item-option>-->
+            </ion-item-options>
+        </ion-item-sliding>
+
+    </ion-list>
+
+<!--  上拉加载  -->
+    <ion-infinite-scroll (ionInfinite)="loadData($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 </ion-content>

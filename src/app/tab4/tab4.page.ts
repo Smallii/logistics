@@ -12,7 +12,7 @@ export class Tab4Page {
     console.log('用户为空，跳转到登录模态框');
     const user = '';
     if ('' === user) {
-      this.presentModal();
+      // this.presentModal();
     }
   }
 

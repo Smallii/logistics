@@ -5,37 +5,132 @@
     </ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
     <ion-card class="welcome-card">
       <ion-img src="/assets/shapes.svg"></ion-img>
-      <ion-card-header>
-        <ion-card-subtitle>1111</ion-card-subtitle>
-        <ion-card-title>111111Ionic</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <p>11111111</p>
-      </ion-card-content>
+<!--      <ion-card-header>-->
+<!--&lt;!&ndash;        <ion-card-subtitle>1111</ion-card-subtitle>&ndash;&gt;-->
+<!--&lt;!&ndash;        <ion-card-title>111111Ionic</ion-card-title>&ndash;&gt;-->
+<!--      </ion-card-header>-->
+<!--      <ion-card-content>-->
+<!--        <p>11111111</p>-->
+<!--      </ion-card-content>-->
     </ion-card>
-    <ion-list lines="none">
-      <ion-list-header>
-        <ion-label>11111</ion-label>
-      </ion-list-header>
-      <ion-item href="https://ionicframework.com/docs/">
-        <ion-icon slot="start" color="medium" name="book"></ion-icon>
-        <ion-label>Ionic 11111</ion-label>
-      </ion-item>
-      <ion-item href="https://ionicframework.com/docs/building/scaffolding">
-        <ion-icon slot="start" color="medium" name="build"></ion-icon>
-        <ion-label>11111</ion-label>
-      </ion-item>
-      <ion-item href="https://ionicframework.com/docs/layout/structure">
-        <ion-icon slot="start" color="medium" name="grid"></ion-icon>
-        <ion-label>1111111</ion-label>
-      </ion-item>
-      <ion-item href="https://ionicframework.com/docs/theming/basics">
-        <ion-icon slot="start" color="medium" name="color-fill"></ion-icon>
-        <ion-label>1111111</ion-label>
-      </ion-item>
-    </ion-list>
+<!--    <ion-list lines="none">-->
+<!--      <ion-list-header>-->
+<!--        <ion-label>11111</ion-label>-->
+<!--      </ion-list-header>-->
+<!--      <ion-item href="https://ionicframework.com/docs/">-->
+<!--        <ion-icon slot="start" color="medium" name="book"></ion-icon>-->
+<!--        <ion-label>Ionic 11111</ion-label>-->
+<!--      </ion-item>-->
+<!--      <ion-item href="https://ionicframework.com/docs/building/scaffolding">-->
+<!--        <ion-icon slot="start" color="medium" name="build"></ion-icon>-->
+<!--        <ion-label>11111</ion-label>-->
+<!--      </ion-item>-->
+<!--      <ion-item href="https://ionicframework.com/docs/layout/structure">-->
+<!--        <ion-icon slot="start" color="medium" name="grid"></ion-icon>-->
+<!--        <ion-label>1111111</ion-label>-->
+<!--      </ion-item>-->
+<!--      <ion-item href="https://ionicframework.com/docs/theming/basics">-->
+<!--        <ion-icon slot="start" color="medium" name="color-fill"></ion-icon>-->
+<!--        <ion-label>1111111</ion-label>-->
+<!--      </ion-item>-->
+<!--    </ion-list>-->
+
+<!--  <ion-segment [(ngModel)] = "isTrue" (ionChange)="segmentChanged($event)">-->
+<!--    <ion-segment-button value="Friends">-->
+<!--      <ion-label>启用模板</ion-label>-->
+<!--      <ion-icon name="play"></ion-icon>-->
+<!--    </ion-segment-button>-->
+
+<!--    <ion-segment-button value="Enemies">-->
+<!--      <ion-label>应用中</ion-label>-->
+<!--    </ion-segment-button>-->
+
+<!--    <ion-segment-button value="streee">-->
+<!--      <ion-label>评教记录</ion-label>-->
+<!--    </ion-segment-button>-->
+<!--  </ion-segment>-->
+
+<!--  <ion-list *ngIf = "isTrue == 'Friends'">-->
+<!--    <ion-item-sliding #slide (click)="close()">-->
+<!--      <ion-item>-->
+<!--        <ion-label>-->
+<!--          模板一-->
+<!--        </ion-label>-->
+<!--      </ion-item>-->
+<!--      <ion-item-options >-->
+<!--        <ion-item-option color="primary" (click)="Release()">-->
+<!--          <ion-icon slot="bottom" name="more"></ion-icon>-->
+<!--          发布-->
+<!--        </ion-item-option>-->
+<!--        <ion-item-option color="secondary">-->
+<!--          <ion-icon slot="bottom" name="archive"></ion-icon>-->
+<!--          删除-->
+<!--        </ion-item-option>-->
+<!--      </ion-item-options>-->
+<!--    </ion-item-sliding>-->
+<!--  </ion-list>-->
+
+<!--  <ion-list *ngIf = "isTrue == 'Enemies'">-->
+<!--    <ion-item-sliding #slide (click)="open()">-->
+<!--      <ion-item>-->
+<!--        <ion-label>-->
+<!--          模板二-->
+<!--        </ion-label>-->
+<!--      </ion-item>-->
+<!--      <ion-item-options>-->
+<!--        <ion-item-option color="primary" (click)="Release2()">-->
+<!--          <ion-icon slot="bottom" name="more"></ion-icon>-->
+<!--          发布-->
+<!--        </ion-item-option>-->
+<!--        <ion-item-option color="secondary">-->
+<!--          <ion-icon slot="bottom" name="archive"></ion-icon>-->
+<!--          删除-->
+<!--        </ion-item-option>-->
+<!--      </ion-item-options>-->
+<!--    </ion-item-sliding>-->
+<!--  </ion-list>-->
+
+<!--  <ion-list *ngIf = "isTrue == 'streee'">-->
+<!--    3333-->
+<!--  </ion-list>-->
+
+  <ion-item>
+    <ion-label position="floating">运输方式：</ion-label>
+    <ion-select [(ngModel)]="isTrue" [interfaceOptions]="transportWayActionSheetOptions" interface="action-sheet" placeholder="请选择一种运输方式" cancel-text="取消">
+      <ion-select-option value="1" selected="selected">物流</ion-select-option>
+      <ion-select-option value="2">快递</ion-select-option>
+    </ion-select>
+  </ion-item>
+  {{isTrue}}
+
+  <ion-item>
+    <ion-label position="floating">出发地：</ion-label>
+    <ion-input></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">目的地：</ion-label>
+    <ion-input></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">货物类别：</ion-label>
+    <ion-select [interfaceOptions]="cargoCategoryActionSheetOptions" interface="action-sheet" placeholder="请选择一种类别" cancel-text="取消">
+      <ion-select-option value="1">农作物</ion-select-option>
+      <ion-select-option value="2">酒水</ion-select-option>
+      <ion-select-option value="2">五金建材</ion-select-option>
+      <ion-select-option value="2">生活用品</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item *ngIf = "isTrue == '1'">
+    <ion-label position="floating">预计重量：</ion-label>
+    <ion-input></ion-input>
+  </ion-item>
+
+  <ion-button color="success" shape="round" expand="block" (click)="addOrder()">提交订单</ion-button>
+
 </ion-content>
