@@ -4,6 +4,7 @@ import { ModalController, NavParams, LoadingController, ToastController } from '
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 // 加载本地存储模块
 import { Storage } from '@ionic/storage';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-modal',
@@ -26,7 +27,8 @@ export class ModalPage implements OnInit {
               private http: HttpClient,
               public loadingController: LoadingController,
               public toastController: ToastController,
-              private storage: Storage) {
+              private storage: Storage,
+              private router: Router) {
     console.log(navParams.get('prop1'));
     console.log(navParams.get('prop2'));
     this.getData();
@@ -40,19 +42,31 @@ export class ModalPage implements OnInit {
     console.log('传过来的值：', this.prop1, this.prop2);
   }
 
-  dissView() {
+    /**
+     * 跳转到登录页面
+     */
+    goRoot() {
+        this.router.navigate(['/tabs/tab4']);
+    }
+
+    /**
+     * 关闭模态窗
+     */
+  async dissView() {
     // this.getData();
     // console.log('接收本页面的输入值：', this.prop1, this.prop2);
-    this.modalController.dismiss();
+    this.modalController.dismiss({
+        result: this.result.data.username
+    });
   }
 
   async getData() {
     const loading = await this.loadingController.create({
       message: '获取数据...'
     });
-      this.storage.get('token').then((token) => {
-          localStorage.setItem('token', token);
-      });
+      // this.storage.get('token').then((token) => {
+      //     localStorage.setItem('token', token);
+      // });
       this.token = localStorage.getItem('token');
       const httpOptions = {
           headers: new HttpHeaders({ 'Authorization': this.token })
@@ -62,9 +76,9 @@ export class ModalPage implements OnInit {
         .subscribe((data) => {
             console.log('成功', data);
             loading.dismiss();
-            this.storage.get('token').then((token) => {
-                this.presentToast(token);
-            });
+            // this.storage.get('token').then((token) => {
+            //     this.presentToast(token);
+            // });
         }, response => {
             loading.dismiss();
             // console.log('失败');
@@ -108,15 +122,22 @@ export class ModalPage implements OnInit {
             .subscribe((val) => {
                 this.result = val.body;
                 // 获取headers中的token
-                this.token = val.headers.get('Authorization');
-                console.log('Token：', this.token);
+                // this.token = val.headers.get('Authorization');
+                // console.log('Token：', this.token);
                 // console.log(this.user);
-                loading.dismiss();
                 if (this.result.meta.status === 800) {
-                    this.storage.set('token', this.token);
+                    loading.dismiss();
+                    // 把登录成功后返回的token存储到本地
+                    localStorage.setItem('token', val.headers.get('Authorization'));
+                    // this.storage.set('token', this.token);
                     this.presentToast(this.result.meta.message);
+                    console.log(this.result.data.username);
+                    localStorage.setItem('username', this.result.data.username);
+                    // 关闭登录模态窗
+                    this.dissView();
                 } else {
                     this.presentToast(this.result.meta.message);
+                    loading.dismiss();
                 }
             },
                 response => {

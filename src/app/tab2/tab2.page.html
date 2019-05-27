@@ -12,22 +12,20 @@
             <!--      <ion-icon name="paper-plane"></ion-icon>-->
             <ion-label>进行中</ion-label>
         </ion-segment-button>
-        <ion-segment-button href="#dogs2" value="2">
+        <ion-segment-button value="2">
             <!--      <ion-icon name="checkmark"></ion-icon>-->
             <ion-label>已完成</ion-label>
         </ion-segment-button>
-        <ion-segment-button href="#dogs3" value="3">
+        <ion-segment-button value="3">
             <!--      <ion-icon name="alert"></ion-icon>-->
             <ion-label>已取消</ion-label>
         </ion-segment-button>
-        <ion-segment-button href="#dogs4" value="4">
+        <ion-segment-button value="4">
             <!--      <ion-icon name="clipboard"></ion-icon>-->
             <ion-label>全部</ion-label>
         </ion-segment-button>
     </ion-segment>
 </ion-toolbar>
-
-
 <ion-content>
 <!--    <ion-button (click)="toggleInfiniteScroll()" expand="block">-->
 <!--        Toggle Infinite Scroll-->
@@ -65,15 +63,16 @@
 
     <ion-list>
         <!-- Multi-line sliding item with icon options on both sides -->
-        <ion-item-sliding *ngFor="let item of items">
-            <ion-item href="#">
+        <ion-item-sliding *ngFor="let item of data">
+            <ion-item routerLink="/orderinfo/{{item.waybillNo}}">
                 <ion-label>
-                    <h2>{{item.title}}</h2>
-                    <p>{{item.title}}</p>
-                    <p>{{item.name}}</p>
+                    <h2>{{item.waybillCargoName}}</h2>
+                    <p>{{item.waybillGoodsName}}</p>
+                    <p *ngIf="item.waybillTransportWay === '1'">物流</p>
+                    <p *ngIf="item.waybillTransportWay === '2'">快递</p>
                 </ion-label>
                 <ion-note slot="end">
-                    {{item.name}}
+                    {{item.creationTime | date:'yyyy-MM-dd HH:mm:ss' }}
                 </ion-note>
             </ion-item>
 

@@ -1,14 +1,19 @@
 <ion-header>
   <ion-toolbar>
+<!--    <ion-buttons slot="start" (click)="presentModal()">-->
+<!--      <ion-button>-->
+<!--        登录-->
+<!--      </ion-button>-->
+<!--    </ion-buttons>-->
     <ion-title>
       我
     </ion-title>
 <!--    <ion-button>-->
 <!--      <ion-icon slot="icon-only" name="contact"></ion-icon>-->
 <!--    </ion-button>-->
-    <ion-buttons slot="end">
-      <ion-icon slot="icon-only" name="log-out"></ion-icon>
-    </ion-buttons>
+<!--    <ion-buttons slot="end" (click)="logout()">-->
+<!--      <ion-icon slot="icon-only" name="log-out"></ion-icon>-->
+<!--    </ion-buttons>-->
   </ion-toolbar>
 </ion-header>
 
@@ -23,21 +28,21 @@
           </ion-card-title>
         </ion-card-header>
         <ion-card-content>
-          and climb a mountain or spend a week in the woods. Wash your spirit clean.
+          {{username}}
         </ion-card-content>
       </ion-card>
     </ion-item>
   </ion-list>
 
   <!-- Item as a Button -->
-  <ion-list>
-    <ion-item [routerLink]="['/orderinfo']">
-      <ion-icon name="clipboard" slot="start"></ion-icon>
-      <ion-label>
-        订单总览
-      </ion-label>
-    </ion-item>
-  </ion-list>
+<!--  <ion-list>-->
+<!--    <ion-item [routerLink]="['/orderinfo']">-->
+<!--      <ion-icon name="clipboard" slot="start"></ion-icon>-->
+<!--      <ion-label>-->
+<!--        订单总览-->
+<!--      </ion-label>-->
+<!--    </ion-item>-->
+<!--  </ion-list>-->
   <ion-list>
     <ion-item [routerLink]="['/integral']">
       <ion-icon name="paper" slot="start"></ion-icon>
@@ -45,31 +50,39 @@
         积分查询
       </ion-label>
     </ion-item>
-    <ion-item [routerLink]="['/pointsfor']">
-      <ion-icon name="cart" slot="start"></ion-icon>
-      <ion-label>
-        积分兑换
-      </ion-label>
-    </ion-item>
+<!--    <ion-item [routerLink]="['/pointsfor']">-->
+<!--      <ion-icon name="cart" slot="start"></ion-icon>-->
+<!--      <ion-label>-->
+<!--        积分兑换-->
+<!--      </ion-label>-->
+<!--    </ion-item>-->
   </ion-list>
+<!--  <ion-list>-->
+<!--    <ion-item [routerLink]="['/address']">-->
+<!--      <ion-icon name="pin" slot="start"></ion-icon>-->
+<!--      <ion-label>-->
+<!--        常用地址-->
+<!--      </ion-label>-->
+<!--    </ion-item>-->
+<!--  </ion-list>-->
+<!--  <ion-list>-->
+<!--    <ion-item [routerLink]="['/versioninfo']">-->
+<!--      <ion-icon name="hammer" slot="start"></ion-icon>-->
+<!--      <ion-label>-->
+<!--        版本信息-->
+<!--      </ion-label>-->
+<!--    </ion-item>-->
+<!--  </ion-list>-->
   <ion-list>
-    <ion-item [routerLink]="['/address']">
-      <ion-icon name="pin" slot="start"></ion-icon>
-      <ion-label>
-        常用地址
-      </ion-label>
-    </ion-item>
-  </ion-list>
-  <ion-list>
-    <ion-item [routerLink]="['/versioninfo']">
+    <ion-item (click)="logout()">
       <ion-icon name="hammer" slot="start"></ion-icon>
       <ion-label>
-        版本信息
+        退出登录
       </ion-label>
     </ion-item>
   </ion-list>
 
-  <!-- Round -->
-  <ion-button shape="round" expand="block" (click)="presentModal()">登录</ion-button>
-  <ion-button color="primary" shape="round" fill="outline" expand="block">注册</ion-button>
+  <!-- Round 屏蔽掉底部登录和注册按钮 -->
+<!--  <ion-button shape="round" expand="block" (click)="presentModal()">登录</ion-button>-->
+<!--  <ion-button color="primary" shape="round" fill="outline" expand="block">注册</ion-button>-->
 </ion-content>

@@ -1,33 +1,91 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ModalPage } from '../modal/modal.page';
+// 加载本地存储模块
+import { Storage } from '@ionic/storage';
+
+import { LoginPage } from '../login/login.page';
+import {RegisterPage} from '../register/register.page';
 
 @Component({
   selector: 'app-tab4',
   templateUrl: 'tab4.page.html',
   styleUrls: ['tab4.page.scss']
 })
-export class Tab4Page {
-  constructor(public modalController: ModalController) {
-    console.log('用户为空，跳转到登录模态框');
-    const user = '';
-    if ('' === user) {
+export class Tab4Page implements OnInit {
+  public token: string;
+  public username: string;
+  constructor(
+      public modalController: ModalController,
+      private storage: Storage) { }
+
+  ngOnInit() {
+    console.log('我的');
+    this.token = localStorage.getItem('token');
+    this.username = localStorage.getItem('username');
+    console.log('===', this.token);
+    if ('' === this.token || 'null' === this.token) {
+      console.log('token无效，跳转到登录模态框');
+      // 如果没有检测到token或者token无效,则进行登录验证
       // this.presentModal();
     }
   }
 
-  // 打开一个模态框，向打开的模态框中传入prop1和prop2两个参数
-  async presentModal() {
-    console.log('打开登录页或者注册页模态框');
+  /**
+   * 打开登录模态窗
+   */
+  async openLogin() {
+    console.log('打开登录页模态框');
     const value = '张三';
     const value2 = '20';
     const modal = await this.modalController.create({
-      component: ModalPage,
+      component: LoginPage,
       componentProps: {
         'prop1': value,
         'prop2': value2
       }
     });
-    return await modal.present();
+    await modal.present();
+    // 监听销毁的事件
+    const { data } = await modal.onDidDismiss();
+    console.log(data.result);
+    if (data.result !== 'success') {
+      this.openRegister();
+    } else {
+      this.username = localStorage.getItem('username');
+    }
+  }
+
+  /**
+   * 打开注册模态窗
+   */
+  async openRegister() {
+    console.log('打开注册页模态框');
+    const value = '张三';
+    const value2 = '20';
+    const modal = await this.modalController.create({
+      component: RegisterPage,
+      componentProps: {
+        'prop1': value,
+        'prop2': value2
+      }
+    });
+    await modal.present();
+    // 监听销毁的事件
+    const { data } = await modal.onDidDismiss();
+    console.log(data.result);
+    this.openLogin();
+  }
+
+  /**
+   * 注销登录
+   */
+  async logout() {
+    // 移除localStorage中存储的token信息
+    localStorage.removeItem('token');
+    // 移除Storage中存储的token信息
+    // this.storage.remove('token');
+    // 打开登录模态窗
+    this.openLogin();
   }
 }

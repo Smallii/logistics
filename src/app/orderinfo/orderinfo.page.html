@@ -3,10 +3,96 @@
     <ion-buttons slot="start">
       <ion-back-button (click)="goRoot()"></ion-back-button>
     </ion-buttons>
-    <ion-title>订单总览</ion-title>
+    <ion-title>订单详情</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-
+  <ion-list>
+      <ion-item>
+        <ion-label>
+          <h2>{{waybill.waybillGoodsName}}&nbsp;&nbsp;{{waybill.waybillGoodsPhone}}</h2>
+          <p>{{waybill.waybillGoodsAddress}}</p>
+<!--          <p *ngIf="waybill.waybillTransportWay === '1'">物流</p>-->
+<!--          <p *ngIf="waybill.waybillTransportWay === '2'">快递</p>-->
+        </ion-label>
+      </ion-item>
+  </ion-list>
+  <ion-list>
+<!--    <ion-list-header>-->
+<!--      <ion-label>运单编号：</ion-label>-->
+<!--    </ion-list-header>-->
+    <ion-item>
+      <ion-label>运单编号：</ion-label>
+      <ion-label>
+        <h2>{{waybill.waybillNo}}</h2>
+        <!--          <p>{{waybill.waybillGoodsName}}</p>-->
+        <!--          <p *ngIf="waybill.waybillTransportWay === '1'">物流</p>-->
+        <!--          <p *ngIf="waybill.waybillTransportWay === '2'">快递</p>-->
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>货物名称：</ion-label>
+      <ion-label>
+        <h2>{{waybill.waybillCargoName}}</h2>
+        <!--          <p>{{waybill.waybillGoodsName}}</p>-->
+        <!--          <p *ngIf="waybill.waybillTransportWay === '1'">物流</p>-->
+        <!--          <p *ngIf="waybill.waybillTransportWay === '2'">快递</p>-->
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>货物类型：</ion-label>
+      <ion-label>
+        <h2>{{waybill.cargoTypeId}}</h2>
+        <!--          <p>{{waybill.waybillGoodsName}}</p>-->
+        <!--          <p *ngIf="waybill.waybillTransportWay === '1'">物流</p>-->
+        <!--          <p *ngIf="waybill.waybillTransportWay === '2'">快递</p>-->
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>下单时间：</ion-label>
+      <ion-label>
+        <h2>{{waybill.creationTime}}</h2>
+        <!--          <p>{{waybill.waybillGoodsName}}</p>-->
+        <!--          <p *ngIf="waybill.waybillTransportWay === '1'">物流</p>-->
+        <!--          <p *ngIf="waybill.waybillTransportWay === '2'">快递</p>-->
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>运单状态：</ion-label>
+      <ion-label>
+        <h2>{{waybill.waybillState}}</h2>
+        <!--          <p>{{waybill.waybillGoodsName}}</p>-->
+        <!--          <p *ngIf="waybill.waybillTransportWay === '1'">物流</p>-->
+        <!--          <p *ngIf="waybill.waybillTransportWay === '2'">快递</p>-->
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>运输方式：</ion-label>
+      <ion-label>
+        <h2>{{waybill.waybillTransportWay}}</h2>
+        <!--          <p>{{waybill.waybillGoodsName}}</p>-->
+        <!--          <p *ngIf="waybill.waybillTransportWay === '1'">物流</p>-->
+        <!--          <p *ngIf="waybill.waybillTransportWay === '2'">快递</p>-->
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>预计重量：</ion-label>
+      <ion-label>
+        <h2>{{waybill.waybillEstimatedWeight}}</h2>
+        <!--          <p>{{waybill.waybillGoodsName}}</p>-->
+        <!--          <p *ngIf="waybill.waybillTransportWay === '1'">物流</p>-->
+        <!--          <p *ngIf="waybill.waybillTransportWay === '2'">快递</p>-->
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>支付方式：</ion-label>
+      <ion-label>
+        <h2>{{waybill.waybillPayWay}}</h2>
+        <!--          <p>{{waybill.waybillGoodsName}}</p>-->
+        <!--          <p *ngIf="waybill.waybillTransportWay === '1'">物流</p>-->
+        <!--          <p *ngIf="waybill.waybillTransportWay === '2'">快递</p>-->
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

@@ -18,7 +18,7 @@ import { IonicStorageModule } from '@ionic/storage';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), IonicStorageModule.forRoot(
+  imports: [BrowserModule, IonicModule.forRoot({backButtonText:'返回'}), IonicStorageModule.forRoot(
       {name: 'myApp',
         driverOrder: ['sqlite', 'indexeddb', 'websql']}), AppRoutingModule, FormsModule, HttpClientModule],
   providers: [

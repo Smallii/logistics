@@ -9,7 +9,9 @@ const routes: Routes = [
   { path: 'information', loadChildren: './information/information.module#InformationPageModule' },
   { path: 'versioninfo', loadChildren: './versioninfo/versioninfo.module#VersioninfoPageModule' },
   { path: 'pointsfor', loadChildren: './pointsfor/pointsfor.module#PointsforPageModule' },
-  { path: 'orderinfo', loadChildren: './orderinfo/orderinfo.module#OrderinfoPageModule' }
+  { path: 'orderinfo/:waybillNo', loadChildren: './orderinfo/orderinfo.module#OrderinfoPageModule' },
+  { path: 'register', loadChildren: './register/register.module#RegisterPageModule' },
+  { path: 'login', loadChildren: './login/login.module#LoginPageModule' }
 ];
 @NgModule({
   imports: [
