@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>注册</ion-title>
+    <ion-buttons slot="end" (click)="closeRegister()">
+      <ion-button>
+        登录
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+<ion-list>
+  <ion-item>
+    <ion-label position="floating">手机号：</ion-label>
+    <ion-input [(ngModel)] = "user.username"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">密&nbsp;&nbsp;&nbsp;&nbsp;码：</ion-label>
+    <ion-input type="password" [(ngModel)] = "user.password"></ion-input>
+  </ion-item>
+</ion-list>
+<ion-list>
+  <!-- Round -->
+  <ion-button color="primary" shape="round" fill="outline" expand="block" (click)="register()">注&nbsp;&nbsp;&nbsp;册</ion-button>
+</ion-list>
+</ion-content>

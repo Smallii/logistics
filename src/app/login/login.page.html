@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>登录</ion-title>
+    <ion-buttons slot="end" (click)="closeLogin()">
+      <ion-button>
+        注册
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-item>
+    <ion-label position="floating">用户名：</ion-label>
+    <ion-input clearInput [(ngModel)] = "userName"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">密&nbsp;&nbsp;&nbsp;&nbsp;码：</ion-label>
+    <ion-input clearInput type="password" [(ngModel)] = "userPwd"></ion-input>
+  </ion-item>
+  <ion-button shape="round" expand="block" (click)="loginUser()">登&nbsp;&nbsp;&nbsp;录</ion-button>
+</ion-content>
