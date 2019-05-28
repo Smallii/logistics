@@ -16,6 +16,9 @@ export class Tab2Page implements OnInit {
   public data: any;
   public items: any;
   public type: string;
+  public currentPage = 0;
+  public pageSize = 10;
+  public totalPages = 0;
   constructor(private http: HttpClient,
               public loadingController: LoadingController,
               public toastController: ToastController) {
@@ -44,29 +47,59 @@ export class Tab2Page implements OnInit {
     }
   }
 
+  /**
+   * 下拉刷新
+   * @param event
+   */
   doRefresh(event) {
     console.log('Begin async operation');
-
-    setTimeout(() => {
-      console.log('Async operation has ended');
-      event.target.complete();
-    }, 2000);
+    this.currentPage = 0;
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': localStorage.getItem('token') })
+    };
+    this.http.get(this.heroesUrl + '/waybill/findAll?waybillState=' + this.type + '&currentPage=' + this.currentPage + '&pageSize=' + this.pageSize, httpOptions)
+        .subscribe((data) => {
+          console.log('成功', data);
+          this.data = data;
+          this.data = this.data.data.content;
+        }, response => {
+          // console.log('失败');
+        }, () => {
+          // loading.dismiss();
+          // this.presentToast('请求超时');
+        });
+    this.toggleInfiniteScroll();
+    event.target.complete();
   }
 
+  /**
+   * 上拉加载
+   * @param event
+   */
   loadData(event) {
-    setTimeout(() => {
-      console.log('Done');
-      event.target.complete();
-      // App logic to determine if all data is loaded
-      // and disable the infinite scroll
-      // if (this.data.length === 1000) {
-      //   event.target.disabled = true;
-      // }
-    }, 500);
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': localStorage.getItem('token') })
+    };
+    this.currentPage ++;
+    this.http.get(this.heroesUrl + '/waybill/findAll?waybillState=' + this.type + '&currentPage=' + this.currentPage + '&pageSize=' + this.pageSize, httpOptions)
+        .subscribe((data) => {
+          console.log('成功', data);
+          this.totalPages = data.data.totalPages;
+          event.target.complete();
+          this.data = this.data.concat(data.data.content);
+          if (this.currentPage === this.totalPages - 1) {
+            event.target.disabled = true;
+          }
+        }, response => {
+          // console.log('失败');
+        }, () => {
+          // loading.dismiss();
+          // this.presentToast('请求超时');
+        });
   }
 
   toggleInfiniteScroll() {
-    this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
+    this.infiniteScroll.disabled = false;
   }
 
   segmentChanged(ev: any) {
@@ -89,11 +122,11 @@ export class Tab2Page implements OnInit {
       headers: new HttpHeaders({ 'Authorization': localStorage.getItem('token') })
     };
     await loading.present();
-    this.http.get(this.heroesUrl + '/waybill/findAllByWaybillStateAndUserId?waybillState=' + this.type, httpOptions)
+    this.http.get(this.heroesUrl + '/waybill/findAll?waybillState=' + this.type + '&currentPage=' + this.currentPage + '&pageSize=' + this.pageSize, httpOptions)
         .subscribe((data) => {
           console.log('成功', data);
           this.data = data;
-          this.data = this.data.data;
+          this.data = this.data.data.content;
           loading.dismiss();
         }, response => {
           loading.dismiss();

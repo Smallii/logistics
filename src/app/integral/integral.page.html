@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
   <ion-card>
     <ion-item class="activated">
       <ion-icon name="warning" slot="start"></ion-icon>
@@ -30,6 +30,7 @@
         <ion-label>
           <h2 *ngIf="item.integralRecordType === '1'" style="color: chartreuse;">+{{item.integralRecordNumber}}</h2>
           <h2 *ngIf="item.integralRecordType === '2'" style="color: red;">-{{item.integralRecordNumber}}</h2>
+          <p>{{item.integralRecordId}}</p>
           <p *ngIf="item.integralRecordType === '1'">产生</p>
           <p *ngIf="item.integralRecordType === '2'">消费</p>
         </ion-label>

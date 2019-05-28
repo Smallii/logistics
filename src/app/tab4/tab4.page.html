@@ -74,12 +74,7 @@
 <!--    </ion-item>-->
 <!--  </ion-list>-->
   <ion-list>
-    <ion-item (click)="logout()">
-      <ion-icon name="hammer" slot="start"></ion-icon>
-      <ion-label>
-        退出登录
-      </ion-label>
-    </ion-item>
+    <ion-button size="default" fill="clear" color="danger" shape="round" expand="block" (click)="presentAlertConfirm()">退出登录</ion-button>
   </ion-list>
 
   <!-- Round 屏蔽掉底部登录和注册按钮 -->

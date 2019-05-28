@@ -10,17 +10,25 @@
     <ion-segment (ionChange)="segmentChanged($event)">
         <ion-segment-button value="1" checked>
             <!--      <ion-icon name="paper-plane"></ion-icon>-->
-            <ion-label>进行中</ion-label>
+            <ion-label>未处理</ion-label>
         </ion-segment-button>
         <ion-segment-button value="2">
             <!--      <ion-icon name="checkmark"></ion-icon>-->
-            <ion-label>已完成</ion-label>
+            <ion-label>已接单</ion-label>
         </ion-segment-button>
         <ion-segment-button value="3">
             <!--      <ion-icon name="alert"></ion-icon>-->
-            <ion-label>已取消</ion-label>
+            <ion-label>已发货</ion-label>
         </ion-segment-button>
         <ion-segment-button value="4">
+            <!--      <ion-icon name="clipboard"></ion-icon>-->
+            <ion-label>已完成</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="5">
+            <!--      <ion-icon name="clipboard"></ion-icon>-->
+            <ion-label>已取消</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="0">
             <!--      <ion-icon name="clipboard"></ion-icon>-->
             <ion-label>全部</ion-label>
         </ion-segment-button>

@@ -5,7 +5,7 @@
     </ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content>
+<ion-content color="light">
     <ion-card class="welcome-card">
       <ion-img src="/assets/shapes.svg"></ion-img>
 <!--      <ion-card-header>-->
@@ -98,6 +98,17 @@
 <!--  </ion-list>-->
 
   <ion-list>
+    <ion-item>
+      <ion-label>货物名称：</ion-label>
+      <ion-input type="text" [(ngModel)]="waybill.waybillCargoName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>预计重量：</ion-label>
+      <ion-input type="text" [(ngModel)]="waybill.waybillEstimatedWeight"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
     <ion-radio-group radio-group [(ngModel)]="waybill.waybillTransportWay">
       <ion-list-header>
         <ion-label>运输方式：</ion-label>
@@ -112,7 +123,6 @@
       </ion-item>
     </ion-radio-group>
   </ion-list>
-  运输方式：{{waybill.waybillTransportWay}}
 
 <!--  <ion-item>-->
 <!--    <ion-label position="floating">运输方式：</ion-label>-->
@@ -129,48 +139,40 @@
         <ion-select-option *ngFor="let item of CargoType" value="{{item.cargoTypeId}}">{{item.cargoTypeName}}</ion-select-option>
       </ion-select>
     </ion-item>
-    货物类别：{{waybill.cargoTypeId}}
   </ion-list>
 
   <ion-list>
     <ion-item>
-      <ion-label position="floating">预计重量：</ion-label>
-      <ion-input type="text" [(ngModel)]="waybill.waybillEstimatedWeight"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="floating">货物名称：</ion-label>
-      <ion-input type="text" [(ngModel)]="waybill.waybillCargoName"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">发货人姓名：</ion-label>
+      <ion-label>发货人姓名：</ion-label>
       <ion-input type="text" [(ngModel)]="waybill.waybillShipperName"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">发货人手机号：</ion-label>
+      <ion-label>发货人手机号：</ion-label>
       <ion-input type="text" [(ngModel)]="waybill.waybillShipperPhone"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">发货人地址：</ion-label>
+      <ion-label>发货人地址：</ion-label>
       <ion-input type="text" [(ngModel)]="waybill.waybillShipperAddress"></ion-input>
     </ion-item>
+  </ion-list>
 
+  <ion-list>
     <ion-item>
-      <ion-label position="floating">收货人姓名：</ion-label>
+      <ion-label>收货人姓名：</ion-label>
       <ion-input type="text" [(ngModel)]="waybill.waybillGoodsName"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">收货人手机号：</ion-label>
+      <ion-label>收货人手机号：</ion-label>
       <ion-input type="text" [(ngModel)]="waybill.waybillGoodsPhone"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">收货人地址：</ion-label>
+      <ion-label>收货人地址：</ion-label>
       <ion-input type="text" [(ngModel)]="waybill.waybillGoodsAddress"></ion-input>
     </ion-item>
   </ion-list>
 
 <ion-list>
-  <ion-button color="success" shape="round" expand="block" (click)="addOrder()">提交订单</ion-button>
+  <ion-button size="default" fill="clear" color="success" shape="round" expand="block" (click)="addOrder()">提交订单</ion-button>
 </ion-list>
 
 </ion-content>

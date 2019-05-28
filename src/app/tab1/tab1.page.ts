@@ -17,7 +17,7 @@ export class Tab1Page implements OnInit  {
     waybillCargoName: '',
     waybillTransportWay: '1',
     cargoTypeId: 1,
-    waybillGoodsName: '1',
+    waybillGoodsName: '',
     waybillGoodsPhone: '',
     waybillGoodsAddress: '',
     waybillShipperName: '',

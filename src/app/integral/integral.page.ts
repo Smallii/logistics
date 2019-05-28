@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import { Router } from '@angular/router';
 import {IonInfiniteScroll, LoadingController, ToastController} from '@ionic/angular';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {isBoolean} from 'util';
 
 @Component({
   selector: 'app-integral',
@@ -11,15 +12,20 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 export class IntegralPage implements OnInit {
 
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
-  private heroesUrl = 'http://127.0.0.1:8099';  // URL to web api
+  private heroesUrl = 'http://10.64.3.31:8099';  // URL to web api
   public simulationArray: any;
-  public data: any;
+  public data: any = [];
+  public result: any;
   public integral: any;
 
   public token: string;
 
   public integralTotal: string;
   public integralConvertibility: string;
+  public currentPage = 0;
+  public pageSize = 10;
+  public totalPages = 0;
+  public first;
 
   public items: any;
   constructor(
@@ -58,11 +64,13 @@ export class IntegralPage implements OnInit {
       headers: new HttpHeaders({ 'Authorization': this.token })
     };
     await loading.present();
-    this.http.get(this.heroesUrl + '/integral_record/findAllByUserId', httpOptions)
+    this.http.get(this.heroesUrl + '/integral_record/findAllByUserId?currentPage=' + this.currentPage + '&pageSize=' + this.pageSize , httpOptions)
         .subscribe((data) => {
           console.log('成功', data);
-          this.data = data;
-          this.data = this.data.data;
+          this.data = data.data.content;
+          this.result = data;
+          this.totalPages = this.result.data.totalPages;
+          this.first = this.result.data.first;
           loading.dismiss();
         }, response => {
           loading.dismiss();
@@ -118,25 +126,84 @@ export class IntegralPage implements OnInit {
    */
   doRefresh(event) {
     console.log('Begin async operation');
-    this.findByUserId();
-    this.findAllByUserId();
+    this.currentPage = 0;
+    this.token = localStorage.getItem('token');
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': this.token })
+    };
+    this.http.get(this.heroesUrl + '/integral/findAllByUserId', httpOptions)
+        .subscribe((data) => {
+          console.log('成功', data);
+          this.integral = data;
+          this.integralTotal = this.integral.data.integralTotal;
+          this.integralConvertibility = this.integral.data.integralConvertibility;
+        }, response => {
+          // console.log('失败');
+        }, () => {
+          // loading.dismiss();
+          // this.presentToast('请求超时');
+        });
+    this.http.get(this.heroesUrl + '/integral_record/findAllByUserId?currentPage=' + this.currentPage + '&pageSize=' + this.pageSize , httpOptions)
+        .subscribe((data) => {
+          console.log('成功', data);
+          this.data = data.data.content;
+          this.result = data;
+          this.totalPages = this.result.data.totalPages;
+          this.first = this.result.data.first;
+        }, response => {
+          // console.log('失败');
+        }, () => {
+          // loading.dismiss();
+          // this.presentToast('请求超时');
+        });
+    this.toggleInfiniteScroll();
     event.target.complete();
   }
 
+  /**
+   * 上拉加载
+   * @param event
+   */
   loadData(event) {
-    setTimeout(() => {
-      console.log('Done');
-      event.target.complete();
-      // App logic to determine if all data is loaded
-      // and disable the infinite scroll
-      // if (this.data.length === 1000) {
-      //   event.target.disabled = true;
-      // }
-    }, 500);
+    console.log(event);
+    this.token = localStorage.getItem('token');
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': this.token })
+    };
+    this.currentPage ++;
+    this.http.get(this.heroesUrl + '/integral_record/findAllByUserId?currentPage=' + this.currentPage + '&pageSize=' + this.pageSize , httpOptions)
+        .subscribe((data) => {
+          console.log('成功', data);
+          this.result = data;
+          this.totalPages = this.result.data.totalPages;
+          event.target.complete();
+          this.data = this.data.concat(data.data.content);
+          if (this.currentPage === this.totalPages - 1) {
+            event.target.disabled = true;
+          }
+        }, response => {
+          // console.log('失败');
+        }, () => {
+          // loading.dismiss();
+          // this.presentToast('请求超时');
+        });
+    // event.target.complete();
+    // setTimeout(() => {
+    //   console.log('Done');
+    //   event.target.complete();
+    //   // App logic to determine if all data is loaded
+    //   // and disable the infinite scroll
+    //   // if (this.data.length === 1000) {
+    //   //   event.target.disabled = true;
+    //   // }
+    // }, 500);
   }
 
+  /**
+   * 恢复页面的上拉加载控件
+   */
   toggleInfiniteScroll() {
-    this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
+    this.infiniteScroll.disabled = false;
   }
 
   segmentChanged(ev: any) {
