@@ -14,7 +14,7 @@ export class RegisterPage implements OnInit {
   @Input() userName: string;
   @Input() userPwd: string;
 
-  private heroesUrl = 'http://10.64.3.31:8099';
+  private heroesUrl = 'http://127.0.0.1:8099';
 
   public result: any;
 

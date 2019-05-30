@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {LoadingController, ModalController, ToastController} from '@ionic/angular';
 import { Router } from '@angular/router';
 
@@ -16,7 +16,7 @@ export class LoginPage implements OnInit {
   public result: any;
   public token: string;
 
-  private heroesUrl = 'http://10.64.3.31:8099';  // URL to web api
+  private heroesUrl = 'http://127.0.0.1:8099';  // URL to web api
 
   constructor(
       private http: HttpClient,
@@ -66,6 +66,51 @@ export class LoginPage implements OnInit {
     toast.present();
   }
 
+  async onsubmit(value) {
+    /**
+     * 把普通的{'username':'123','password':'123'}
+     * 改变成fromDate格式，不然后台登录验证接收不到值
+     */
+    const form = new FormData;
+    form.append('username', this.userName);
+    form.append('password', this.userPwd);
+    console.log(form);
+    const loading = await this.loadingController.create({
+      message: '登录中...'
+    });
+    await loading.present();
+    this.http.post(this.heroesUrl + '/login', form, { observe: 'response' })
+        .subscribe((val) => {
+              this.result = val.body;
+              // 获取headers中的token
+              // this.token = val.headers.get('Authorization');
+              // console.log('Token：', this.token);
+              // console.log(this.user);
+              if (this.result.meta.status === 800) {
+                loading.dismiss();
+                // 把登录成功后返回的token存储到本地
+                localStorage.setItem('token', val.headers.get('Authorization'));
+                // this.storage.set('token', this.token);
+                this.presentToast(this.result.meta.message);
+                console.log(this.result.data.username);
+                localStorage.setItem('username', this.result.data.username);
+                this.closeLogin('800');
+              } else {
+                this.presentToast(this.result.meta.message);
+                loading.dismiss();
+              }
+            },
+            response => {
+              loading.dismiss();
+              this.presentToast(response.error.meta.message);
+            },
+            () => {
+              loading.dismiss();
+              console.log('The POST observable is now completed.');
+            }
+        );
+  }
+
   /**
    * 登录
    */
@@ -75,12 +120,25 @@ export class LoginPage implements OnInit {
     const loading = await this.loadingController.create({
       message: '登录中...'
     });
-    await loading.present();
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    const headers = new HttpHeaders({
+      'Accept': 'application/x-www-form-urlencoded',
+      'Content-Type': 'multipart/form-data'
+    });
     const request = {
       username: this.userName,
       password: this.userPwd
     };
-    this.http.post(this.heroesUrl + '/login', null, { params: request, observe: 'response' })
+    await loading.present();
+    const data = new FormData();
+    Object.keys(request).forEach((key) => {
+      data.append(key, request[key]);
+    });
+    this.http.post(this.heroesUrl + '/login', data, { observe: 'response', headers: headers })
         .subscribe((val) => {
               this.result = val.body;
               // 获取headers中的token

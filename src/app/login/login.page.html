@@ -10,13 +10,15 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-item>
-    <ion-label position="floating">用户名：</ion-label>
-    <ion-input clearInput [(ngModel)] = "userName"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="floating">密&nbsp;&nbsp;&nbsp;&nbsp;码：</ion-label>
-    <ion-input clearInput type="password" [(ngModel)] = "userPwd"></ion-input>
-  </ion-item>
-  <ion-button shape="round" expand="block" (click)="loginUser()">登&nbsp;&nbsp;&nbsp;录</ion-button>
+  <form (ngSubmit)="onsubmit(formCont.value)" #formCont="ngForm">
+    <ion-item>
+      <ion-label position="floating">用户名：</ion-label>
+      <ion-input clearInput [(ngModel)] = "userName" name="username"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">密&nbsp;&nbsp;&nbsp;&nbsp;码：</ion-label>
+      <ion-input clearInput type="password" [(ngModel)] = "userPwd" name="password"></ion-input>
+    </ion-item>
+    <ion-button type="submit" shape="round" expand="block">登&nbsp;&nbsp;&nbsp;录</ion-button>
+  </form>
 </ion-content>

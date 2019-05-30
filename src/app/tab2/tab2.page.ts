@@ -11,8 +11,9 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 })
 export class Tab2Page implements OnInit {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
-  private heroesUrl = 'http://10.64.3.31:8099';  // URL to web api
+  private heroesUrl = 'http://127.0.0.1:8099';  // URL to web api
   public simulationArray: any;
+  public result: any;
   public data: any;
   public items: any;
   public type: string;
@@ -49,7 +50,6 @@ export class Tab2Page implements OnInit {
 
   /**
    * 下拉刷新
-   * @param event
    */
   doRefresh(event) {
     console.log('Begin async operation');
@@ -74,7 +74,6 @@ export class Tab2Page implements OnInit {
 
   /**
    * 上拉加载
-   * @param event
    */
   loadData(event) {
     const httpOptions = {
@@ -84,9 +83,10 @@ export class Tab2Page implements OnInit {
     this.http.get(this.heroesUrl + '/waybill/findAll?waybillState=' + this.type + '&currentPage=' + this.currentPage + '&pageSize=' + this.pageSize, httpOptions)
         .subscribe((data) => {
           console.log('成功', data);
-          this.totalPages = data.data.totalPages;
+          this.result = data;
+          this.totalPages = this.result.data.totalPages;
           event.target.complete();
-          this.data = this.data.concat(data.data.content);
+          this.data = this.data.concat(this.result.data.content);
           if (this.currentPage === this.totalPages - 1) {
             event.target.disabled = true;
           }
@@ -122,10 +122,20 @@ export class Tab2Page implements OnInit {
       headers: new HttpHeaders({ 'Authorization': localStorage.getItem('token') })
     };
     await loading.present();
+    const page = {
+        waybillState: this.type,
+        currentPage: this.currentPage,
+        pageSize: this.pageSize
+    };
     this.http.get(this.heroesUrl + '/waybill/findAll?waybillState=' + this.type + '&currentPage=' + this.currentPage + '&pageSize=' + this.pageSize, httpOptions)
         .subscribe((data) => {
           console.log('成功', data);
           this.data = data;
+            if (403 === this.data.meta.status) {
+                this.presentToast('登录超时，请重新登录！');
+                loading.dismiss();
+                return false;
+            }
           this.data = this.data.data.content;
           loading.dismiss();
         }, response => {

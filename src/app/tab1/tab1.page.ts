@@ -67,11 +67,15 @@ export class Tab1Page implements OnInit  {
         .subscribe((data) => {
           console.log('成功');
           this.result = data;
+          if (403 === this.result.meta.status) {
+              this.presentToast('登录超时，请重新登录！');
+              loading.dismiss();
+              return false;
+          }
           this.CargoType = this.result.data;
           loading.dismiss();
         }, response => {
           loading.dismiss();
-          alert(response);
         }, () => {
           // loading.dismiss();
           // this.presentToast('请求超时');

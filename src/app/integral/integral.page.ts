@@ -2,7 +2,6 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import { Router } from '@angular/router';
 import {IonInfiniteScroll, LoadingController, ToastController} from '@ionic/angular';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {isBoolean} from 'util';
 
 @Component({
   selector: 'app-integral',
@@ -12,9 +11,10 @@ import {isBoolean} from 'util';
 export class IntegralPage implements OnInit {
 
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
-  private heroesUrl = 'http://10.64.3.31:8099';  // URL to web api
+  private heroesUrl = 'http://127.0.0.1:8099';  // URL to web api
   public simulationArray: any;
   public data: any = [];
+  public data2: any;
   public result: any;
   public integral: any;
 
@@ -67,7 +67,8 @@ export class IntegralPage implements OnInit {
     this.http.get(this.heroesUrl + '/integral_record/findAllByUserId?currentPage=' + this.currentPage + '&pageSize=' + this.pageSize , httpOptions)
         .subscribe((data) => {
           console.log('成功', data);
-          this.data = data.data.content;
+          this.data = data;
+          this.data = this.data.data.content;
           this.result = data;
           this.totalPages = this.result.data.totalPages;
           this.first = this.result.data.first;
@@ -122,7 +123,6 @@ export class IntegralPage implements OnInit {
 
   /**
    * 下拉刷新
-   * @param event
    */
   doRefresh(event) {
     console.log('Begin async operation');
@@ -146,7 +146,8 @@ export class IntegralPage implements OnInit {
     this.http.get(this.heroesUrl + '/integral_record/findAllByUserId?currentPage=' + this.currentPage + '&pageSize=' + this.pageSize , httpOptions)
         .subscribe((data) => {
           console.log('成功', data);
-          this.data = data.data.content;
+            this.data = data;
+            this.data = this.data.data.content;
           this.result = data;
           this.totalPages = this.result.data.totalPages;
           this.first = this.result.data.first;
@@ -162,7 +163,6 @@ export class IntegralPage implements OnInit {
 
   /**
    * 上拉加载
-   * @param event
    */
   loadData(event) {
     console.log(event);
@@ -174,10 +174,12 @@ export class IntegralPage implements OnInit {
     this.http.get(this.heroesUrl + '/integral_record/findAllByUserId?currentPage=' + this.currentPage + '&pageSize=' + this.pageSize , httpOptions)
         .subscribe((data) => {
           console.log('成功', data);
+          this.data2 = data;
+          this.data2 = this.data2.data.content;
           this.result = data;
           this.totalPages = this.result.data.totalPages;
           event.target.complete();
-          this.data = this.data.concat(data.data.content);
+          this.data = this.data.concat(this.data2);
           if (this.currentPage === this.totalPages - 1) {
             event.target.disabled = true;
           }
