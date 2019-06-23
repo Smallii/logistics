@@ -7,7 +7,7 @@
 </ion-header>
 <!-- tab切换 -->
 <ion-toolbar>
-    <ion-segment (ionChange)="segmentChanged($event)">
+    <ion-segment scrollable (ionChange)="segmentChanged($event)">
         <ion-segment-button value="1" checked>
             <!--      <ion-icon name="paper-plane"></ion-icon>-->
             <ion-label>未处理</ion-label>
@@ -84,15 +84,15 @@
                 </ion-note>
             </ion-item>
 
-            <ion-item-options side="start">
-                <ion-item-option>
-                    <ion-icon slot="icon-only" name="heart"></ion-icon>
-                </ion-item-option>
-            </ion-item-options>
+<!--            <ion-item-options side="start">-->
+<!--                <ion-item-option>-->
+<!--                    <ion-icon slot="icon-only" name="heart"></ion-icon>-->
+<!--                </ion-item-option>-->
+<!--            </ion-item-options>-->
 
-            <ion-item-options side="end">
-                <ion-item-option (click)="removeItem(item)" color="danger">
-                    <ion-icon slot="icon-only" name="trash"></ion-icon>
+            <ion-item-options *ngIf="type === '1'" side="end">
+                <ion-item-option (click)="cancelOrder(item)">
+                    取消
                 </ion-item-option>
 <!--                <ion-item-option>-->
 <!--                    <ion-icon slot="icon-only" name="star"></ion-icon>-->

@@ -11,9 +11,11 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 })
 export class Tab2Page implements OnInit {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
-  private heroesUrl = 'http://127.0.0.1:8099';  // URL to web api
+  private heroesUrl = 'http://192.168.1.105:8099';  // URL to web api
+    // private heroesUrl = 'http://127.0.0.1:8099';  // URL to web api
   public simulationArray: any;
   public result: any;
+  public resultStart: any;
   public data: any;
   public items: any;
   public type: string;
@@ -40,10 +42,55 @@ export class Tab2Page implements OnInit {
     console.log('订单');
   }
 
+    /**
+     * 取消订单
+     */
+    async cancelOrder(item) {
+        for (let i = 0; i < this.data.length; i++) {
+            if (this.data[i] === item) {
+                console.log(item.waybillId);
+                const loading = await this.loadingController.create({
+                    message: '提交申请中...'
+                });
+                const httpOptions = {
+                    headers: new HttpHeaders({ 'Authorization': localStorage.getItem('token') })
+                };
+                const data1 = {
+                    'waybillId': item.waybillId,
+                    'waybillState': '5'
+                };
+                await loading.present();
+                this.http.post(this.heroesUrl + '/waybill/cancelWaybill', data1, httpOptions)
+                    .subscribe((data) => {
+                            this.resultStart = data;
+                            if ('200' === this.resultStart.code) {
+                                loading.dismiss();
+                                this.presentToast(this.resultStart.msg);
+                                this.data.splice(i, 1);
+                            } else {
+                                loading.dismiss();
+                                this.presentToast(this.resultStart.msg);
+                            }
+                        },
+                        response => {
+                            loading.dismiss();
+                            console.log(response);
+                            this.presentToast('服务器出错啦！');
+                        },
+                        () => {
+                            loading.dismiss();
+                            console.log('The POST observable is now completed.');
+                        }
+                    );
+            }
+        }
+    }
+
   removeItem(item) {
-    for (let i = 0; i < this.items.length; i++) {
-      if (this.items[i] === item) {
-        this.items.splice(i, 1);
+    for (let i = 0; i < this.data.length; i++) {
+      if (this.data[i] === item) {
+          console.log(item.waybillId);
+          this.data.splice(i, 1);
       }
     }
   }
@@ -65,6 +112,7 @@ export class Tab2Page implements OnInit {
         }, response => {
           // console.log('失败');
         }, () => {
+            this.presentToast('服务器出错啦！');
           // loading.dismiss();
           // this.presentToast('请求超时');
         });
@@ -91,6 +139,7 @@ export class Tab2Page implements OnInit {
             event.target.disabled = true;
           }
         }, response => {
+            this.presentToast('服务器出错啦！');
           // console.log('失败');
         }, () => {
           // loading.dismiss();
@@ -104,6 +153,7 @@ export class Tab2Page implements OnInit {
 
   segmentChanged(ev: any) {
     console.log('点击tab页：', ev.detail.value);
+      this.currentPage = 0;
     this.type = ev.detail.value;
     this.getWaybillList();
   }
@@ -131,15 +181,11 @@ export class Tab2Page implements OnInit {
         .subscribe((data) => {
           console.log('成功', data);
           this.data = data;
-            if (403 === this.data.meta.status) {
-                this.presentToast('登录超时，请重新登录！');
-                loading.dismiss();
-                return false;
-            }
           this.data = this.data.data.content;
           loading.dismiss();
         }, response => {
           loading.dismiss();
+            this.presentToast('服务器出错啦！');
           // console.log('失败');
         }, () => {
           // loading.dismiss();
@@ -150,7 +196,8 @@ export class Tab2Page implements OnInit {
   async presentToast(content: string) {
     const toast = await this.toastController.create({
       message: content,
-      duration: 2000
+        position: 'middle',
+        duration: 3000
     });
     toast.present();
   }

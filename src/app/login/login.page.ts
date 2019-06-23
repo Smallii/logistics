@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {LoadingController, ModalController, ToastController} from '@ionic/angular';
+import {AlertController, LoadingController, ModalController, ToastController} from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Component({
@@ -16,14 +16,16 @@ export class LoginPage implements OnInit {
   public result: any;
   public token: string;
 
-  private heroesUrl = 'http://127.0.0.1:8099';  // URL to web api
+  private heroesUrl = 'http://192.168.1.105:8099';  // URL to web api
+  // private heroesUrl = 'http://127.0.0.1:8099';  // URL to web api
 
   constructor(
       private http: HttpClient,
       public loadingController: LoadingController,
       public toastController: ToastController,
       private router: Router,
-      public modalController: ModalController
+      public modalController: ModalController,
+      public alertController: AlertController
   ) { }
 
   ngOnInit() {
@@ -61,12 +63,36 @@ export class LoginPage implements OnInit {
   async presentToast(content: string) {
     const toast = await this.toastController.create({
       message: content,
-      duration: 2000
+      position: 'middle',
+      duration: 3000
     });
     toast.present();
   }
 
+  /**
+   * alert
+   */
+  async presentAlert(msg: string) {
+    const alert = await this.alertController.create({
+      header: '提示！',
+      message: msg,
+      buttons: ['好的']
+    });
+    await alert.present();
+  }
+
   async onsubmit(value) {
+    /**
+     * 验证用户名
+     */
+    if ('' === this.userName || null === this.userName || undefined === this.userName) {
+      this.presentAlert('用户名不能为空！');
+      return false;
+    }
+    if ('' === this.userPwd || null === this.userPwd || undefined === this.userPwd) {
+      this.presentAlert('密码不能为空！');
+      return false;
+    }
     /**
      * 把普通的{'username':'123','password':'123'}
      * 改变成fromDate格式，不然后台登录验证接收不到值

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import { ModalController, NavParams, LoadingController, ToastController } from '@ionic/angular';
+import {ModalController, NavParams, LoadingController, ToastController, AlertController} from '@ionic/angular';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Component({
@@ -10,20 +10,23 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 export class Tab1Page implements OnInit  {
 
   public token: string;
-  private heroesUrl = 'http://10.64.3.31:8099';  // URL to web api
+  private heroesUrl = 'http://192.168.1.105:8099';  // URL to web api
+  // private heroesUrl = 'http://127.0.0.1:8099';  // URL to web api
   public result: any;
 
   waybill: any = {
     waybillCargoName: '',
     waybillTransportWay: '1',
-    cargoTypeId: 1,
+    cargoTypeId: '',
     waybillGoodsName: '',
     waybillGoodsPhone: '',
     waybillGoodsAddress: '',
     waybillShipperName: '',
     waybillShipperPhone: '',
     waybillShipperAddress: '',
-    waybillEstimatedWeight: ''
+    waybillEstimatedWeight: '',
+    userAttribute: '2',
+    waybillPayment: '1'
   };
 
   CargoType: any = [];
@@ -33,7 +36,8 @@ export class Tab1Page implements OnInit  {
   constructor(
       private http: HttpClient,
       public loadingController: LoadingController,
-      public toastController: ToastController
+      public toastController: ToastController,
+      public alertController: AlertController
   ) {
   }
 
@@ -46,6 +50,10 @@ export class Tab1Page implements OnInit  {
 
   segmentChanged(ev: any) {
     console.log('Segment changed', ev);
+  }
+
+  onSubmit() {
+
   }
 
   /**
@@ -67,15 +75,11 @@ export class Tab1Page implements OnInit  {
         .subscribe((data) => {
           console.log('成功');
           this.result = data;
-          if (403 === this.result.meta.status) {
-              this.presentToast('登录超时，请重新登录！');
-              loading.dismiss();
-              return false;
-          }
           this.CargoType = this.result.data;
           loading.dismiss();
         }, response => {
           loading.dismiss();
+          this.presentToast('服务器出错啦！');
         }, () => {
           // loading.dismiss();
           // this.presentToast('请求超时');
@@ -86,6 +90,80 @@ export class Tab1Page implements OnInit  {
    * 提交订单
    */
   async addOrder() {
+    /**
+     * 表单验证
+     */
+    if ('' === this.waybill.cargoTypeId) {
+      this.presentAlert('请选择一种货物类别！');
+      return false;
+    }
+    if ('' === this.waybill.waybillCargoName.trim()) {
+      this.presentAlert('请输入货物名称！');
+      return false;
+    }
+    if (this.waybill.waybillCargoName.length >= 100) {
+      this.presentAlert('货物名称过长！');
+      return false;
+    }
+    if ('' === this.waybill.waybillEstimatedWeight.trim()) {
+      this.presentAlert('请输入货物预计重量！');
+      return false;
+    }
+    const waybillEstimatedWeightVal = /^[0-9]+$/;
+    if (!waybillEstimatedWeightVal.test(this.waybill.waybillEstimatedWeight)) {
+      this.presentAlert('货物预计重量格式不正确！');
+      return false;
+    }
+    if ('' === this.waybill.waybillShipperName.trim()) {
+      this.presentAlert('请输入发货人姓名！');
+      return false;
+    }
+    if (this.waybill.waybillShipperName.length >= 50) {
+      this.presentAlert('发货人姓名过长！');
+      return false;
+    }
+    if ('' === this.waybill.waybillShipperPhone.trim()) {
+      this.presentAlert('请输入发货人手机号！');
+      return false;
+    }
+    const waybillShipperPhoneVal = /^[1][3458][012356789][0-9]+$/;
+    if (!waybillShipperPhoneVal.test(this.waybill.waybillShipperPhone)) {
+      this.presentAlert('发货人手机号格式不正确！');
+      return false;
+    }
+    if ('' === this.waybill.waybillShipperAddress.trim()) {
+      this.presentAlert('请输入发货人地址！');
+      return false;
+    }
+    if (this.waybill.waybillShipperAddress.length >= 100) {
+      this.presentAlert('发货人地址过长！');
+      return false;
+    }
+    if ('' === this.waybill.waybillGoodsName.trim()) {
+      this.presentAlert('请输入收货人姓名！');
+      return false;
+    }
+    if (this.waybill.waybillGoodsName.length >= 50) {
+      this.presentAlert('收货人姓名过长！');
+      return false;
+    }
+    if ('' === this.waybill.waybillGoodsPhone.trim()) {
+      this.presentAlert('请输入收货人手机号！');
+      return false;
+    }
+    const waybillGoodsPhoneVal = /^[1][3458][012356789][0-9]+$/;
+    if (!waybillGoodsPhoneVal.test(this.waybill.waybillGoodsPhone)) {
+      this.presentAlert('收货人手机号格式不正确！');
+      return false;
+    }
+    if ('' === this.waybill.waybillGoodsAddress.trim()) {
+      this.presentAlert('请输入收货人地址！');
+      return false;
+    }
+    if (this.waybill.waybillGoodsAddress.length >= 200) {
+      this.presentAlert('收货人地址过长！');
+      return false;
+    }
     const loading = await this.loadingController.create({
       message: '订单提交中...'
     });
@@ -109,7 +187,7 @@ export class Tab1Page implements OnInit  {
             response => {
               loading.dismiss();
               console.log(response);
-              this.presentToast(response);
+              this.presentToast('服务器出错啦！');
             },
             () => {
               loading.dismiss();
@@ -118,12 +196,28 @@ export class Tab1Page implements OnInit  {
         );
   }
 
+  /**
+   * 吐司
+   */
   async presentToast(content: string) {
     const toast = await this.toastController.create({
       message: content,
       // position: 'top',
-      duration: 2000
+      position: 'middle',
+      duration: 3000
     });
     toast.present();
+  }
+
+  /**
+   * alert
+   */
+  async presentAlert(msg: string) {
+    const alert = await this.alertController.create({
+      header: '提示！',
+      message: msg,
+      buttons: ['好的']
+    });
+    alert.present();
   }
 }

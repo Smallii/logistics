@@ -10,8 +10,11 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 })
 export class OrderinfoPage implements OnInit {
 
-  private heroesUrl = 'http://10.64.3.31:8099';  // URL to web api
+  private heroesUrl = 'http://192.168.1.105:8099';  // URL to web api
+  // private heroesUrl = 'http://127.0.0.1:8099';  // URL to web api
   public data: any;
+  public result: any;
+  CargoType: any = [];
   waybill: any = {
     waybillNo: '',
     waybillPayWay: '',
@@ -26,7 +29,9 @@ export class OrderinfoPage implements OnInit {
     waybillShipperName: '',
     waybillShipperPhone: '',
     waybillShipperAddress: '',
-    waybillEstimatedWeight: ''
+    waybillEstimatedWeight: '',
+    waybillPayment: '',
+    waybillMoney: ''
   };
 
   constructor(
@@ -66,6 +71,7 @@ export class OrderinfoPage implements OnInit {
           loading.dismiss();
         }, response => {
           loading.dismiss();
+          this.presentToast('服务器出错啦！');
           // console.log('失败');
         }, () => {
           // loading.dismiss();
@@ -80,7 +86,8 @@ export class OrderinfoPage implements OnInit {
   async presentToast(content: string) {
     const toast = await this.toastController.create({
       message: content,
-      duration: 2000
+      position: 'middle',
+      duration: 3000
     });
     toast.present();
   }

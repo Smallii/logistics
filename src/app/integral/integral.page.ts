@@ -11,7 +11,8 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 export class IntegralPage implements OnInit {
 
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
-  private heroesUrl = 'http://127.0.0.1:8099';  // URL to web api
+  private heroesUrl = 'http://192.168.1.105:8099';  // URL to web api
+    // private heroesUrl = 'http://127.0.0.1:8099';  // URL to web api
   public simulationArray: any;
   public data: any = [];
   public data2: any;
@@ -75,6 +76,7 @@ export class IntegralPage implements OnInit {
           loading.dismiss();
         }, response => {
           loading.dismiss();
+            this.presentToast('服务器出错啦！');
           // console.log('失败');
         }, () => {
           // loading.dismiss();
@@ -106,6 +108,7 @@ export class IntegralPage implements OnInit {
           loading.dismiss();
         }, response => {
           loading.dismiss();
+            this.presentToast('服务器出错啦！');
           // console.log('失败');
         }, () => {
           // loading.dismiss();
@@ -138,6 +141,7 @@ export class IntegralPage implements OnInit {
           this.integralTotal = this.integral.data.integralTotal;
           this.integralConvertibility = this.integral.data.integralConvertibility;
         }, response => {
+            this.presentToast('服务器出错啦！');
           // console.log('失败');
         }, () => {
           // loading.dismiss();
@@ -152,6 +156,7 @@ export class IntegralPage implements OnInit {
           this.totalPages = this.result.data.totalPages;
           this.first = this.result.data.first;
         }, response => {
+            this.presentToast('服务器出错啦！');
           // console.log('失败');
         }, () => {
           // loading.dismiss();
@@ -184,6 +189,7 @@ export class IntegralPage implements OnInit {
             event.target.disabled = true;
           }
         }, response => {
+            this.presentToast('服务器出错啦！');
           // console.log('失败');
         }, () => {
           // loading.dismiss();
@@ -215,7 +221,8 @@ export class IntegralPage implements OnInit {
   async presentToast(content: string) {
     const toast = await this.toastController.create({
       message: content,
-      duration: 2000
+        position: 'middle',
+        duration: 3000
     });
     toast.present();
   }

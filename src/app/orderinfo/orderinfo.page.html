@@ -25,43 +25,76 @@
     <ion-item>
       <ion-label>运单编号：</ion-label>
       <ion-label>
-        <h2>{{waybill.waybillNo}}</h2>
+          <ion-badge color="medium waybillNo">{{waybill.waybillNo}}</ion-badge>
         <!--          <p>{{waybill.waybillGoodsName}}</p>-->
         <!--          <p *ngIf="waybill.waybillTransportWay === '1'">物流</p>-->
         <!--          <p *ngIf="waybill.waybillTransportWay === '2'">快递</p>-->
       </ion-label>
     </ion-item>
-    <ion-item>
-      <ion-label>货物名称：</ion-label>
-      <ion-label>
-        <h2>{{waybill.waybillCargoName}}</h2>
-        <!--          <p>{{waybill.waybillGoodsName}}</p>-->
-        <!--          <p *ngIf="waybill.waybillTransportWay === '1'">物流</p>-->
-        <!--          <p *ngIf="waybill.waybillTransportWay === '2'">快递</p>-->
-      </ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>货物类型：</ion-label>
-      <ion-label>
-        <h2>{{waybill.cargoTypeId}}</h2>
-        <!--          <p>{{waybill.waybillGoodsName}}</p>-->
-        <!--          <p *ngIf="waybill.waybillTransportWay === '1'">物流</p>-->
-        <!--          <p *ngIf="waybill.waybillTransportWay === '2'">快递</p>-->
-      </ion-label>
-    </ion-item>
+
+      <ion-item>
+          <ion-label>运单状态：</ion-label>
+          <ion-label>
+              <ion-badge *ngIf="waybill.waybillState === '1'" color="warning">未处理</ion-badge>
+              <ion-badge *ngIf="waybill.waybillState === '2'" color="secondary">已处理</ion-badge>
+              <ion-badge *ngIf="waybill.waybillState === '3'" color="tertiary">已发货</ion-badge>
+              <ion-badge *ngIf="waybill.waybillState === '4'" color="success">已完成</ion-badge>
+              <ion-badge *ngIf="waybill.waybillState === '5'" color="danger">已取消</ion-badge>
+              <!--          <p>{{waybill.waybillGoodsName}}</p>-->
+              <!--          <p *ngIf="waybill.waybillTransportWay === '1'">物流</p>-->
+              <!--          <p *ngIf="waybill.waybillTransportWay === '2'">快递</p>-->
+          </ion-label>
+      </ion-item>
+      <ion-item>
+          <ion-label>货物名称：</ion-label>
+          <ion-label>
+              <h2>{{waybill.waybillCargoName}}</h2>
+              <!--          <p>{{waybill.waybillGoodsName}}</p>-->
+              <!--          <p *ngIf="waybill.waybillTransportWay === '1'">物流</p>-->
+              <!--          <p *ngIf="waybill.waybillTransportWay === '2'">快递</p>-->
+          </ion-label>
+      </ion-item>
+      <ion-item>
+          <ion-label>货物类型：</ion-label>
+          <ion-label>
+              <h2>{{waybill.cargoTypeName}}</h2>
+              <!--          <p>{{waybill.waybillGoodsName}}</p>-->
+              <!--          <p *ngIf="waybill.waybillTransportWay === '1'">物流</p>-->
+              <!--          <p *ngIf="waybill.waybillTransportWay === '2'">快递</p>-->
+          </ion-label>
+      </ion-item>
+      <ion-item>
+          <ion-label>支付方式：</ion-label>
+          <ion-label>
+              <ion-badge *ngIf="waybill.waybillPayWay === '1'" color="primary">线下支付</ion-badge>
+              <!--          <p>{{waybill.waybillGoodsName}}</p>-->
+              <!--          <p *ngIf="waybill.waybillTransportWay === '1'">物流</p>-->
+              <!--          <p *ngIf="waybill.waybillTransportWay === '2'">快递</p>-->
+          </ion-label>
+      </ion-item>
+      <ion-item>
+          <ion-label>是否付款：</ion-label>
+          <ion-label>
+              <ion-badge *ngIf="waybill.waybillPayment === '1'" color="warning">未付款</ion-badge>
+              <ion-badge *ngIf="waybill.waybillPayment === '2'" color="success">已付款</ion-badge>
+              <!--          <p>{{waybill.waybillGoodsName}}</p>-->
+              <!--          <p *ngIf="waybill.waybillTransportWay === '1'">物流</p>-->
+              <!--          <p *ngIf="waybill.waybillTransportWay === '2'">快递</p>-->
+          </ion-label>
+      </ion-item>
+      <ion-item>
+          <ion-label>支付金额：</ion-label>
+          <ion-label>
+              <ion-badge color="primary">{{waybill.waybillMoney}}元</ion-badge>
+              <!--          <p>{{waybill.waybillPayment}}</p>-->
+              <!--          <p *ngIf="waybill.waybillTransportWay === '1'">物流</p>-->
+              <!--          <p *ngIf="waybill.waybillTransportWay === '2'">快递</p>-->
+          </ion-label>
+      </ion-item>
     <ion-item>
       <ion-label>下单时间：</ion-label>
       <ion-label>
-        <h2>{{waybill.creationTime}}</h2>
-        <!--          <p>{{waybill.waybillGoodsName}}</p>-->
-        <!--          <p *ngIf="waybill.waybillTransportWay === '1'">物流</p>-->
-        <!--          <p *ngIf="waybill.waybillTransportWay === '2'">快递</p>-->
-      </ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>运单状态：</ion-label>
-      <ion-label>
-        <h2>{{waybill.waybillState}}</h2>
+        <h2>{{waybill.creationTime | date:'yyyy-MM-dd HH:mm:ss' }}</h2>
         <!--          <p>{{waybill.waybillGoodsName}}</p>-->
         <!--          <p *ngIf="waybill.waybillTransportWay === '1'">物流</p>-->
         <!--          <p *ngIf="waybill.waybillTransportWay === '2'">快递</p>-->
@@ -70,7 +103,8 @@
     <ion-item>
       <ion-label>运输方式：</ion-label>
       <ion-label>
-        <h2>{{waybill.waybillTransportWay}}</h2>
+          <h2 *ngIf="waybill.waybillTransportWay === '1'">物流</h2>
+          <h2 *ngIf="waybill.waybillTransportWay === '2'">快递</h2>
         <!--          <p>{{waybill.waybillGoodsName}}</p>-->
         <!--          <p *ngIf="waybill.waybillTransportWay === '1'">物流</p>-->
         <!--          <p *ngIf="waybill.waybillTransportWay === '2'">快递</p>-->
@@ -80,15 +114,6 @@
       <ion-label>预计重量：</ion-label>
       <ion-label>
         <h2>{{waybill.waybillEstimatedWeight}}</h2>
-        <!--          <p>{{waybill.waybillGoodsName}}</p>-->
-        <!--          <p *ngIf="waybill.waybillTransportWay === '1'">物流</p>-->
-        <!--          <p *ngIf="waybill.waybillTransportWay === '2'">快递</p>-->
-      </ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>支付方式：</ion-label>
-      <ion-label>
-        <h2>{{waybill.waybillPayWay}}</h2>
         <!--          <p>{{waybill.waybillGoodsName}}</p>-->
         <!--          <p *ngIf="waybill.waybillTransportWay === '1'">物流</p>-->
         <!--          <p *ngIf="waybill.waybillTransportWay === '2'">快递</p>-->

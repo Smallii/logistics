@@ -97,33 +97,36 @@
 <!--    3333-->
 <!--  </ion-list>-->
 
-  <ion-list>
-    <ion-item>
-      <ion-label>货物名称：</ion-label>
-      <ion-input type="text" [(ngModel)]="waybill.waybillCargoName"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>预计重量：</ion-label>
-      <ion-input type="text" [(ngModel)]="waybill.waybillEstimatedWeight"></ion-input>
-    </ion-item>
-  </ion-list>
+<!--    interface="action-sheet"   添加这个属性可以把model变成从下向上显示的样式-->
+    <div class="title">物品信息</div>
+    <ion-list>
+        <ion-item>
+            <ion-label>货物类别</ion-label>
+            <ion-select [(ngModel)]="waybill.cargoTypeId" placeholder="请选择货物类别" cancelText="取消" okText="确定">
+                <ion-select-option *ngFor="let item of CargoType" value="{{item.cargoTypeId}}">{{item.cargoTypeName}}</ion-select-option>
+            </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>货物名称：</ion-label>
+          <ion-input type="text" [(ngModel)]="waybill.waybillCargoName" placeholder="（必填）请输入货物名称"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>预计重量：</ion-label>
+          <ion-input type="text" [(ngModel)]="waybill.waybillEstimatedWeight" placeholder="（必填）请输入货物预计重量"></ion-input>
+        </ion-item>
+    </ion-list>
 
-  <ion-list>
+    <div class="title">运输方式</div>
     <ion-radio-group radio-group [(ngModel)]="waybill.waybillTransportWay">
-      <ion-list-header>
-        <ion-label>运输方式：</ion-label>
-      </ion-list-header>
-      <ion-item>
-        <ion-label fixed>物流</ion-label>
-        <ion-radio slot="end" value="1"></ion-radio>
-      </ion-item>
-      <ion-item>
-        <ion-label fixed>快递</ion-label>
-        <ion-radio slot="end" value="2"></ion-radio>
-      </ion-item>
+        <ion-item>
+            <ion-label fixed>物流</ion-label>
+            <ion-radio slot="end" value="1"></ion-radio>
+        </ion-item>
+        <ion-item>
+            <ion-label fixed>快递</ion-label>
+            <ion-radio slot="end" value="2"></ion-radio>
+        </ion-item>
     </ion-radio-group>
-  </ion-list>
-
 <!--  <ion-item>-->
 <!--    <ion-label position="floating">运输方式：</ion-label>-->
 <!--    <ion-select [(ngModel)]="isTrue" [interfaceOptions]="transportWayActionSheetOptions" interface="action-sheet" placeholder="请选择一种运输方式" cancel-text="取消">-->
@@ -132,47 +135,41 @@
 <!--    </ion-select>-->
 <!--  </ion-item>-->
 
-  <ion-list>
-    <ion-item>
-      <ion-label>货物类别</ion-label>
-      <ion-select [(ngModel)]="waybill.cargoTypeId" interface="action-sheet" cancelText="取消" okText="确定">
-        <ion-select-option *ngFor="let item of CargoType" value="{{item.cargoTypeId}}">{{item.cargoTypeName}}</ion-select-option>
-      </ion-select>
-    </ion-item>
-  </ion-list>
+    <div class="title">发货信息</div>
+    <ion-list>
+        <ion-item>
+            <ion-label required>发货人姓名：</ion-label>
+            <ion-input type="text" [(ngModel)]="waybill.waybillShipperName" placeholder="（必填）请输入发货人姓名"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label required>发货人手机号：</ion-label>
+            <ion-input type="text" [(ngModel)]="waybill.waybillShipperPhone" placeholder="（必填）请输入发货人手机号"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label required>发货人地址：</ion-label>
+            <ion-input type="text" [(ngModel)]="waybill.waybillShipperAddress" placeholder="（必填）请输入发货人地址"></ion-input>
+        </ion-item>
+    </ion-list>
 
-  <ion-list>
-    <ion-item>
-      <ion-label>发货人姓名：</ion-label>
-      <ion-input type="text" [(ngModel)]="waybill.waybillShipperName"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>发货人手机号：</ion-label>
-      <ion-input type="text" [(ngModel)]="waybill.waybillShipperPhone"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>发货人地址：</ion-label>
-      <ion-input type="text" [(ngModel)]="waybill.waybillShipperAddress"></ion-input>
-    </ion-item>
-  </ion-list>
+    <div class="title">收货信息</div>
+    <ion-list>
+        <ion-item>
+            <ion-label>收货人姓名：</ion-label>
+            <ion-input type="text" [(ngModel)]="waybill.waybillGoodsName" placeholder="（必填）请输入收货人姓名"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>收货人手机号：</ion-label>
+            <ion-input type="text" [(ngModel)]="waybill.waybillGoodsPhone" placeholder="（必填）请输入收货人手机号"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>收货人地址：</ion-label>
+            <ion-input type="text" [(ngModel)]="waybill.waybillGoodsAddress" placeholder="（必填）请输入收货人地址"></ion-input>
+        </ion-item>
+    </ion-list>
 
-  <ion-list>
-    <ion-item>
-      <ion-label>收货人姓名：</ion-label>
-      <ion-input type="text" [(ngModel)]="waybill.waybillGoodsName"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>收货人手机号：</ion-label>
-      <ion-input type="text" [(ngModel)]="waybill.waybillGoodsPhone"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>收货人地址：</ion-label>
-      <ion-input type="text" [(ngModel)]="waybill.waybillGoodsAddress"></ion-input>
-    </ion-item>
-  </ion-list>
-
-<ion-list>
-  <ion-button size="default" fill="clear" color="success" shape="round" expand="block" (click)="addOrder()">提交订单</ion-button>
-</ion-list>
+    <div class="title"></div>
+    <ion-list>
+      <ion-button size="default" fill="clear" color="success" shape="round" expand="block" (click)="addOrder()">提交订单</ion-button>
+    </ion-list>
 
 </ion-content>
