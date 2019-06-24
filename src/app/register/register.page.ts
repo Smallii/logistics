@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {AlertController, LoadingController, ModalController, ToastController} from '@ionic/angular';
+import {AlertController, LoadingController, ToastController} from '@ionic/angular';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 
@@ -14,14 +14,12 @@ export class RegisterPage implements OnInit {
   @Input() userName: string;
   @Input() userPwd: string;
 
-  private heroesUrl = 'http://192.168.1.105:8099';
-  // private heroesUrl = 'http://127.0.0.1:8099';  // URL to web api
-
   public result: any;
 
   user: any = {
     username: '',
     password: '',
+    monicker: '',
     userType: '2'
   };
 
@@ -30,7 +28,6 @@ export class RegisterPage implements OnInit {
       private http: HttpClient,
       public loadingController: LoadingController,
       private router: Router,
-      public modalController: ModalController,
       public alertController: AlertController
   ) { }
 
@@ -40,13 +37,13 @@ export class RegisterPage implements OnInit {
   /**
    * 关闭模态窗
    */
-  async closeRegister() {
-    // this.getData();
-    // console.log('接收本页面的输入值：', this.prop1, this.prop2);
-    this.modalController.dismiss({
-      result: 'register'
-    });
-  }
+  // async closeRegister() {
+  //   // this.getData();
+  //   // console.log('接收本页面的输入值：', this.prop1, this.prop2);
+  //   this.modalController.dismiss({
+  //     result: 'register'
+  //   });
+  // }
 
   /**
    * 注册用户
@@ -55,29 +52,33 @@ export class RegisterPage implements OnInit {
     /**
      * 验证用户名
      */
-    if ('' === this.user.username || null === this.user.username || undefined === this.user.username) {
+    if ('' === this.user.username.trim() || null === this.user.username.trim() || undefined === this.user.username.trim()) {
       this.presentAlert('用户名不能为空！');
       return false;
     }
     const usernameVal = /^[1][3458][012356789][0-9]+$/;
-    if (!usernameVal.test(this.user.username)) {
+    if (!usernameVal.test(this.user.username.trim())) {
       this.presentAlert('用户名格式不正确！');
       return false;
     }
-    if ('' === this.user.password || null === this.user.password || undefined === this.user.password) {
+    if ('' === this.user.password.trim() || null === this.user.password.trim() || undefined === this.user.password.trim()) {
       this.presentAlert('密码不能为空！');
       return false;
     }
     const passwordVal = /^[a-z]+[A-Z]+[0-9]+|[a-z]+[0-9]+[A-Z]+|[0-9]+[a-z]+[A-Z]+|[0-9]+[A-Z]+[a-z]+|[A-Z]+[0-9]+[a-z]+|[A-Z]+[a-z]+[0-9]+$/;
-    if (!passwordVal.test(this.user.password)) {
+    if (!passwordVal.test(this.user.password.trim())) {
       this.presentAlert('密码格式不正确！');
+      return false;
+    }
+    if ('' === this.user.monicker.trim() || null === this.user.monicker.trim() || undefined === this.user.monicker.trim()) {
+      this.presentAlert('姓名不能为空！');
       return false;
     }
     const loading = await this.loadingController.create({
       message: '注册中...'
     });
     await loading.present();
-    this.http.post(this.heroesUrl + '/user/register', this.user)
+    this.http.post('/user/register', this.user)
         .subscribe((data) => {
           this.result = data;
           if ('301' === this.result.code) {
@@ -87,7 +88,7 @@ export class RegisterPage implements OnInit {
           if ('200' === this.result.code) {
             loading.dismiss();
             this.presentToast(this.result.msg);
-            this.closeRegister();
+            // this.closeRegister();
           } else {
             loading.dismiss();
             this.presentToast('注册失败');

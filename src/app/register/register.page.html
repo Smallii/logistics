@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>注册</ion-title>
-    <ion-buttons slot="end" (click)="closeRegister()">
+    <ion-title>注册新用户</ion-title>
+    <ion-buttons slot="end" (click)="goLogin()">
       <ion-button>
         登录
       </ion-button>
@@ -18,6 +18,10 @@
   <ion-item>
     <ion-label position="floating">密&nbsp;&nbsp;&nbsp;&nbsp;码：</ion-label>
     <ion-input type="password" [(ngModel)] = "user.password" placeholder="（必填）请输入密码：必须包含大写字母、小写字母、数字"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">姓&nbsp;&nbsp;&nbsp;&nbsp;名：</ion-label>
+    <ion-input [(ngModel)] = "user.monicker" placeholder="（必填）请输入姓名"></ion-input>
   </ion-item>
 </ion-list>
 <ion-list>

@@ -3,34 +3,34 @@
     <ion-buttons slot="start">
       <ion-back-button (click)="goRoot()"></ion-back-button>
     </ion-buttons>
-    <ion-title>积分查询</ion-title>
+    <ion-title>积分</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-card>
+<ion-content color="light">
+  <div class="title">积分信息</div>
     <ion-item class="activated">
-      <ion-icon name="warning" slot="start"></ion-icon>
-      <ion-label>总积分：{{integralTotal}}</ion-label>
+      <ion-icon name="warning" slot="start"></ion-icon>当前积分：
+      <ion-label color="success">{{integralTotal}}</ion-label>分
     </ion-item>
     <ion-item>
-      <ion-icon name="walk" slot="start"></ion-icon>
-      <ion-label>总消费：{{integralConvertibility}}</ion-label>
+      <ion-icon name="walk" slot="start"></ion-icon>已用积分：
+      <ion-label color="danger">{{integralConvertibility}}</ion-label>分
     </ion-item>
-  </ion-card>
+
   <!-- 默认的下拉刷新样式 -->
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
+  <div class="title">积分记录</div>
   <ion-list>
     <!-- Multi-line sliding item with icon options on both sides -->
     <ion-item-sliding *ngFor="let item of data">
-      <ion-item href="#">
+      <ion-item>
         <ion-label>
           <h2 *ngIf="item.integralRecordType === '1'" style="color: chartreuse;">+{{item.integralRecordNumber}}</h2>
           <h2 *ngIf="item.integralRecordType === '2'" style="color: red;">-{{item.integralRecordNumber}}</h2>
-          <p>{{item.integralRecordId}}</p>
           <p *ngIf="item.integralRecordType === '1'">产生</p>
           <p *ngIf="item.integralRecordType === '2'">消费</p>
         </ion-label>
@@ -40,20 +40,20 @@
         </ion-note>
       </ion-item>
 
-      <ion-item-options side="start">
-        <ion-item-option>
-          <ion-icon slot="icon-only" name="heart"></ion-icon>
-        </ion-item-option>
-      </ion-item-options>
+<!--      <ion-item-options side="start">-->
+<!--        <ion-item-option>-->
+<!--          <ion-icon slot="icon-only" name="heart"></ion-icon>-->
+<!--        </ion-item-option>-->
+<!--      </ion-item-options>-->
 
-      <ion-item-options side="end">
-        <ion-item-option (click)="removeItem(item)" color="danger">
-          <ion-icon slot="icon-only" name="trash"></ion-icon>
-        </ion-item-option>
-        <!--                <ion-item-option>-->
-        <!--                    <ion-icon slot="icon-only" name="star"></ion-icon>-->
-        <!--                </ion-item-option>-->
-      </ion-item-options>
+<!--      <ion-item-options side="end">-->
+<!--        <ion-item-option (click)="removeItem(item)" color="danger">-->
+<!--          <ion-icon slot="icon-only" name="trash"></ion-icon>-->
+<!--        </ion-item-option>-->
+<!--        &lt;!&ndash;                <ion-item-option>&ndash;&gt;-->
+<!--        &lt;!&ndash;                    <ion-icon slot="icon-only" name="star"></ion-icon>&ndash;&gt;-->
+<!--        &lt;!&ndash;                </ion-item-option>&ndash;&gt;-->
+<!--      </ion-item-options>-->
     </ion-item-sliding>
 
   </ion-list>

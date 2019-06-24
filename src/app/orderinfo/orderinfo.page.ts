@@ -9,9 +9,6 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
   styleUrls: ['./orderinfo.page.scss'],
 })
 export class OrderinfoPage implements OnInit {
-
-  private heroesUrl = 'http://192.168.1.105:8099';  // URL to web api
-  // private heroesUrl = 'http://127.0.0.1:8099';  // URL to web api
   public data: any;
   public result: any;
   CargoType: any = [];
@@ -55,15 +52,9 @@ export class OrderinfoPage implements OnInit {
     const loading = await this.loadingController.create({
       message: '获取数据...'
     });
-    // this.storage.get('token').then((token) => {
-    //     localStorage.setItem('token', token);
-    // });
     const id = this.route.snapshot.paramMap.get('waybillNo');
-    const httpOptions = {
-      headers: new HttpHeaders({ 'Authorization': localStorage.getItem('token') })
-    };
     await loading.present();
-    this.http.get(this.heroesUrl + '/waybill/findByWaybillNo?waybillNo=' + id, httpOptions)
+    this.http.get('/waybill/findByWaybillNo?waybillNo=' + id)
         .subscribe((data) => {
           console.log('成功', data);
           this.data = data;

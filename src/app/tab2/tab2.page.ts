@@ -11,8 +11,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 })
 export class Tab2Page implements OnInit {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
-  private heroesUrl = 'http://192.168.1.105:8099';  // URL to web api
-    // private heroesUrl = 'http://127.0.0.1:8099';  // URL to web api
+
   public simulationArray: any;
   public result: any;
   public resultStart: any;
@@ -52,15 +51,12 @@ export class Tab2Page implements OnInit {
                 const loading = await this.loadingController.create({
                     message: '提交申请中...'
                 });
-                const httpOptions = {
-                    headers: new HttpHeaders({ 'Authorization': localStorage.getItem('token') })
-                };
                 const data1 = {
                     'waybillId': item.waybillId,
                     'waybillState': '5'
                 };
                 await loading.present();
-                this.http.post(this.heroesUrl + '/waybill/cancelWaybill', data1, httpOptions)
+                this.http.post('/waybill/cancelWaybill', data1)
                     .subscribe((data) => {
                             this.resultStart = data;
                             if ('200' === this.resultStart.code) {
@@ -101,18 +97,15 @@ export class Tab2Page implements OnInit {
   doRefresh(event) {
     console.log('Begin async operation');
     this.currentPage = 0;
-    const httpOptions = {
-      headers: new HttpHeaders({ 'Authorization': localStorage.getItem('token') })
-    };
-    this.http.get(this.heroesUrl + '/waybill/findAll?waybillState=' + this.type + '&currentPage=' + this.currentPage + '&pageSize=' + this.pageSize, httpOptions)
+    this.http.get('/waybill/findAll?waybillState=' + this.type + '&currentPage=' + this.currentPage + '&pageSize=' + this.pageSize)
         .subscribe((data) => {
           console.log('成功', data);
           this.data = data;
           this.data = this.data.data.content;
         }, response => {
+            this.presentToast('服务器出错啦！');
           // console.log('失败');
         }, () => {
-            this.presentToast('服务器出错啦！');
           // loading.dismiss();
           // this.presentToast('请求超时');
         });
@@ -124,11 +117,8 @@ export class Tab2Page implements OnInit {
    * 上拉加载
    */
   loadData(event) {
-    const httpOptions = {
-      headers: new HttpHeaders({ 'Authorization': localStorage.getItem('token') })
-    };
     this.currentPage ++;
-    this.http.get(this.heroesUrl + '/waybill/findAll?waybillState=' + this.type + '&currentPage=' + this.currentPage + '&pageSize=' + this.pageSize, httpOptions)
+    this.http.get('/waybill/findAll?waybillState=' + this.type + '&currentPage=' + this.currentPage + '&pageSize=' + this.pageSize)
         .subscribe((data) => {
           console.log('成功', data);
           this.result = data;
@@ -165,19 +155,13 @@ export class Tab2Page implements OnInit {
     const loading = await this.loadingController.create({
       message: '获取数据...'
     });
-    // this.storage.get('token').then((token) => {
-    //     localStorage.setItem('token', token);
-    // });
-    const httpOptions = {
-      headers: new HttpHeaders({ 'Authorization': localStorage.getItem('token') })
-    };
     await loading.present();
     const page = {
         waybillState: this.type,
         currentPage: this.currentPage,
         pageSize: this.pageSize
     };
-    this.http.get(this.heroesUrl + '/waybill/findAll?waybillState=' + this.type + '&currentPage=' + this.currentPage + '&pageSize=' + this.pageSize, httpOptions)
+    this.http.get('/waybill/findAll?waybillState=' + this.type + '&currentPage=' + this.currentPage + '&pageSize=' + this.pageSize)
         .subscribe((data) => {
           console.log('成功', data);
           this.data = data;

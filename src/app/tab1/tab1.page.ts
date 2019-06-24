@@ -10,8 +10,6 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 export class Tab1Page implements OnInit  {
 
   public token: string;
-  private heroesUrl = 'http://192.168.1.105:8099';  // URL to web api
-  // private heroesUrl = 'http://127.0.0.1:8099';  // URL to web api
   public result: any;
 
   waybill: any = {
@@ -63,15 +61,8 @@ export class Tab1Page implements OnInit  {
     const loading = await this.loadingController.create({
       message: '获取数据...'
     });
-    // this.storage.get('token').then((token) => {
-    //     localStorage.setItem('token', token);
-    // });
-    this.token = localStorage.getItem('token');
-    const httpOptions = {
-      headers: new HttpHeaders({ 'Authorization': this.token })
-    };
     await loading.present();
-    this.http.get(this.heroesUrl + '/cargo_type/findAllCargoType', httpOptions)
+    this.http.get('/cargo_type/findAllCargoType')
         .subscribe((data) => {
           console.log('成功');
           this.result = data;
@@ -172,7 +163,7 @@ export class Tab1Page implements OnInit  {
       headers: new HttpHeaders({ 'Authorization': this.token })
     };
     await loading.present();
-    this.http.post(this.heroesUrl + '/waybill/addWaybill', this.waybill, httpOptions)
+    this.http.post('/waybill/addWaybill', this.waybill)
         .subscribe((data) => {
               this.result = data;
               if ('200' === this.result.code) {

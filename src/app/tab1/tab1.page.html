@@ -6,16 +6,16 @@
   </ion-toolbar>
 </ion-header>
 <ion-content color="light">
-    <ion-card class="welcome-card">
-      <ion-img src="/assets/shapes.svg"></ion-img>
-<!--      <ion-card-header>-->
-<!--&lt;!&ndash;        <ion-card-subtitle>1111</ion-card-subtitle>&ndash;&gt;-->
-<!--&lt;!&ndash;        <ion-card-title>111111Ionic</ion-card-title>&ndash;&gt;-->
-<!--      </ion-card-header>-->
-<!--      <ion-card-content>-->
-<!--        <p>11111111</p>-->
-<!--      </ion-card-content>-->
-    </ion-card>
+<!--    <ion-card class="welcome-card">-->
+<!--      <ion-img src="/assets/shapes.svg"></ion-img>-->
+<!--&lt;!&ndash;      <ion-card-header>&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        <ion-card-subtitle>1111</ion-card-subtitle>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        <ion-card-title>111111Ionic</ion-card-title>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;      </ion-card-header>&ndash;&gt;-->
+<!--&lt;!&ndash;      <ion-card-content>&ndash;&gt;-->
+<!--&lt;!&ndash;        <p>11111111</p>&ndash;&gt;-->
+<!--&lt;!&ndash;      </ion-card-content>&ndash;&gt;-->
+<!--    </ion-card>-->
 <!--    <ion-list lines="none">-->
 <!--      <ion-list-header>-->
 <!--        <ion-label>11111</ion-label>-->
@@ -113,6 +113,7 @@
         <ion-item>
           <ion-label>预计重量：</ion-label>
           <ion-input type="text" [(ngModel)]="waybill.waybillEstimatedWeight" placeholder="（必填）请输入货物预计重量"></ion-input>
+            <ion-label>千克（kg）</ion-label>
         </ion-item>
     </ion-list>
 
@@ -168,8 +169,9 @@
     </ion-list>
 
     <div class="title"></div>
-    <ion-list>
-      <ion-button size="default" fill="clear" color="success" shape="round" expand="block" (click)="addOrder()">提交订单</ion-button>
-    </ion-list>
+        <ion-list>
+          <ion-button size="default" fill="clear" color="success" shape="round" expand="block" (click)="addOrder()">提交订单</ion-button>
+        </ion-list>
+    <div class="title"></div>
 
 </ion-content>

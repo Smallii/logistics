@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {AlertController, LoadingController, ModalController, ToastController} from '@ionic/angular';
+import {HttpClient} from '@angular/common/http';
+import {AlertController, LoadingController, ToastController} from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Component({
@@ -16,15 +16,11 @@ export class LoginPage implements OnInit {
   public result: any;
   public token: string;
 
-  private heroesUrl = 'http://192.168.1.105:8099';  // URL to web api
-  // private heroesUrl = 'http://127.0.0.1:8099';  // URL to web api
-
   constructor(
       private http: HttpClient,
       public loadingController: LoadingController,
       public toastController: ToastController,
       private router: Router,
-      public modalController: ModalController,
       public alertController: AlertController
   ) { }
 
@@ -35,19 +31,19 @@ export class LoginPage implements OnInit {
   /**
    * 关闭模态窗
    */
-  async closeLogin(sts: string) {
-    // this.getData();
-    // console.log('接收本页面的输入值：', this.prop1, this.prop2);
-    if (sts === '800') {
-      this.modalController.dismiss({
-        result: 'success'
-      });
-    } else {
-      this.modalController.dismiss({
-        result: 'fail'
-      });
-    }
-  }
+  // async closeLogin(sts: string) {
+  //   // this.getData();
+  //   // console.log('接收本页面的输入值：', this.prop1, this.prop2);
+  //   if (sts === '800') {
+  //     this.modalController.dismiss({
+  //       result: 'success'
+  //     });
+  //   } else {
+  //     this.modalController.dismiss({
+  //       result: 'fail'
+  //     });
+  //   }
+  // }
 
   /**
    * 跳转到注册页面
@@ -105,7 +101,7 @@ export class LoginPage implements OnInit {
       message: '登录中...'
     });
     await loading.present();
-    this.http.post(this.heroesUrl + '/login', form, { observe: 'response' })
+    this.http.post('/login', form, { observe: 'response' })
         .subscribe((val) => {
               this.result = val.body;
               // 获取headers中的token
@@ -120,7 +116,8 @@ export class LoginPage implements OnInit {
                 this.presentToast(this.result.meta.message);
                 console.log(this.result.data.username);
                 localStorage.setItem('username', this.result.data.username);
-                this.closeLogin('800');
+                localStorage.setItem('monicker', this.result.data.monicker);
+                this.router.navigate(['/']);
               } else {
                 this.presentToast(this.result.meta.message);
                 loading.dismiss();
@@ -128,66 +125,7 @@ export class LoginPage implements OnInit {
             },
             response => {
               loading.dismiss();
-              this.presentToast(response.error.meta.message);
-            },
-            () => {
-              loading.dismiss();
-              console.log('The POST observable is now completed.');
-            }
-        );
-  }
-
-  /**
-   * 登录
-   */
-  async loginUser() {
-    console.log('输入的用户名', this.userName);
-    console.log('输入的密码', this.userPwd);
-    const loading = await this.loadingController.create({
-      message: '登录中...'
-    });
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-    const headers = new HttpHeaders({
-      'Accept': 'application/x-www-form-urlencoded',
-      'Content-Type': 'multipart/form-data'
-    });
-    const request = {
-      username: this.userName,
-      password: this.userPwd
-    };
-    await loading.present();
-    const data = new FormData();
-    Object.keys(request).forEach((key) => {
-      data.append(key, request[key]);
-    });
-    this.http.post(this.heroesUrl + '/login', data, { observe: 'response', headers: headers })
-        .subscribe((val) => {
-              this.result = val.body;
-              // 获取headers中的token
-              // this.token = val.headers.get('Authorization');
-              // console.log('Token：', this.token);
-              // console.log(this.user);
-              if (this.result.meta.status === 800) {
-                loading.dismiss();
-                // 把登录成功后返回的token存储到本地
-                localStorage.setItem('token', val.headers.get('Authorization'));
-                // this.storage.set('token', this.token);
-                this.presentToast(this.result.meta.message);
-                console.log(this.result.data.username);
-                localStorage.setItem('username', this.result.data.username);
-                this.closeLogin('800');
-              } else {
-                this.presentToast(this.result.meta.message);
-                loading.dismiss();
-              }
-            },
-            response => {
-              loading.dismiss();
-              this.presentToast(response.error.meta.message);
+              console.log(response);
             },
             () => {
               loading.dismiss();

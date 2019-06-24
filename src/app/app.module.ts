@@ -14,17 +14,29 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 // 引入本地存储
 import { IonicStorageModule } from '@ionic/storage';
+// 注册http拦截器
+import { HttpInterceptorProviders } from './http-interceptors';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot({backButtonText:'返回'}), IonicStorageModule.forRoot(
+  imports: [
+      BrowserModule,
+    IonicModule.forRoot({backButtonText: '返回'}),
+    IonicStorageModule.forRoot(
       {name: 'myApp',
-        driverOrder: ['sqlite', 'indexeddb', 'websql']}), AppRoutingModule, FormsModule, HttpClientModule],
+        driverOrder: ['sqlite', 'indexeddb', 'websql']}),
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule],
   providers: [
-    StatusBar,
-    SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+      StatusBar,
+      SplashScreen,
+      {
+        provide: RouteReuseStrategy,
+        useClass: IonicRouteStrategy
+      },
+      HttpInterceptorProviders
   ],
   bootstrap: [AppComponent]
 })

@@ -11,8 +11,6 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 export class IntegralPage implements OnInit {
 
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
-  private heroesUrl = 'http://192.168.1.105:8099';  // URL to web api
-    // private heroesUrl = 'http://127.0.0.1:8099';  // URL to web api
   public simulationArray: any;
   public data: any = [];
   public data2: any;
@@ -57,15 +55,8 @@ export class IntegralPage implements OnInit {
     const loading = await this.loadingController.create({
       message: '获取数据...'
     });
-    // this.storage.get('token').then((token) => {
-    //     localStorage.setItem('token', token);
-    // });
-    this.token = localStorage.getItem('token');
-    const httpOptions = {
-      headers: new HttpHeaders({ 'Authorization': this.token })
-    };
     await loading.present();
-    this.http.get(this.heroesUrl + '/integral_record/findAllByUserId?currentPage=' + this.currentPage + '&pageSize=' + this.pageSize , httpOptions)
+    this.http.get('/integral_record/findAllByUserId?currentPage=' + this.currentPage + '&pageSize=' + this.pageSize)
         .subscribe((data) => {
           console.log('成功', data);
           this.data = data;
@@ -91,15 +82,8 @@ export class IntegralPage implements OnInit {
     const loading = await this.loadingController.create({
       message: '获取数据...'
     });
-    // this.storage.get('token').then((token) => {
-    //     localStorage.setItem('token', token);
-    // });
-    this.token = localStorage.getItem('token');
-    const httpOptions = {
-      headers: new HttpHeaders({ 'Authorization': this.token })
-    };
     await loading.present();
-    this.http.get(this.heroesUrl + '/integral/findAllByUserId', httpOptions)
+    this.http.get('/integral/findAllByUserId')
         .subscribe((data) => {
           console.log('成功', data);
           this.integral = data;
@@ -130,11 +114,7 @@ export class IntegralPage implements OnInit {
   doRefresh(event) {
     console.log('Begin async operation');
     this.currentPage = 0;
-    this.token = localStorage.getItem('token');
-    const httpOptions = {
-      headers: new HttpHeaders({ 'Authorization': this.token })
-    };
-    this.http.get(this.heroesUrl + '/integral/findAllByUserId', httpOptions)
+    this.http.get('/integral/findAllByUserId')
         .subscribe((data) => {
           console.log('成功', data);
           this.integral = data;
@@ -147,7 +127,7 @@ export class IntegralPage implements OnInit {
           // loading.dismiss();
           // this.presentToast('请求超时');
         });
-    this.http.get(this.heroesUrl + '/integral_record/findAllByUserId?currentPage=' + this.currentPage + '&pageSize=' + this.pageSize , httpOptions)
+    this.http.get('/integral_record/findAllByUserId?currentPage=' + this.currentPage + '&pageSize=' + this.pageSize)
         .subscribe((data) => {
           console.log('成功', data);
             this.data = data;
@@ -171,12 +151,8 @@ export class IntegralPage implements OnInit {
    */
   loadData(event) {
     console.log(event);
-    this.token = localStorage.getItem('token');
-    const httpOptions = {
-      headers: new HttpHeaders({ 'Authorization': this.token })
-    };
     this.currentPage ++;
-    this.http.get(this.heroesUrl + '/integral_record/findAllByUserId?currentPage=' + this.currentPage + '&pageSize=' + this.pageSize , httpOptions)
+    this.http.get('/integral_record/findAllByUserId?currentPage=' + this.currentPage + '&pageSize=' + this.pageSize)
         .subscribe((data) => {
           console.log('成功', data);
           this.data2 = data;

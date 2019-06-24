@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
-import { ModalPage } from '../modal/modal.page';
 // 加载本地存储模块
 import { Storage } from '@ionic/storage';
 
 import { LoginPage } from '../login/login.page';
 import {RegisterPage} from '../register/register.page';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-tab4',
@@ -15,6 +15,7 @@ import {RegisterPage} from '../register/register.page';
 export class Tab4Page implements OnInit {
   public token: string;
   public username: string;
+  private monicker: string;
   items = [
     {title: 'item1', name: 'item1'},
     {title: 'item2', name: 'item2'},
@@ -26,18 +27,11 @@ export class Tab4Page implements OnInit {
   constructor(
       public modalController: ModalController,
       public alertController: AlertController,
-      private storage: Storage) { }
+      private router: Router) { }
 
   ngOnInit() {
-    console.log('我的');
-    this.token = localStorage.getItem('token');
     this.username = localStorage.getItem('username');
-    console.log('===', this.token);
-    if ('' === this.token || 'null' === this.token) {
-      console.log('token无效，跳转到登录模态框');
-      // 如果没有检测到token或者token无效,则进行登录验证
-      // this.presentModal();
-    }
+    this.monicker = localStorage.getItem('monicker');
   }
 
   /**
@@ -95,7 +89,7 @@ export class Tab4Page implements OnInit {
     // 移除Storage中存储的token信息
     // this.storage.remove('token');
     // 打开登录模态窗
-    this.openLogin();
+    this.router.navigate(['/login']);
   }
 
   /**
