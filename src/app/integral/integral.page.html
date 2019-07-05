@@ -8,52 +8,53 @@
 </ion-header>
 
 <ion-content color="light">
-  <div class="title">积分信息</div>
-    <ion-item class="activated">
-      <ion-icon name="warning" slot="start"></ion-icon>当前积分：
-      <ion-label color="success">{{integralTotal}}</ion-label>分
-    </ion-item>
-    <ion-item>
-      <ion-icon name="walk" slot="start"></ion-icon>已用积分：
-      <ion-label color="danger">{{integralConvertibility}}</ion-label>分
-    </ion-item>
-
   <!-- 默认的下拉刷新样式 -->
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+  <ion-list-header class="title">积分信息</ion-list-header>
+  <ion-item>
+    <img class="img-item" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNTYyMzA5MDgzNDEzIiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwNzEgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9Ijg3NjIiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjA5LjE3OTY4NzUiIGhlaWdodD0iMjAwIj48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwvc3R5bGU+PC9kZWZzPjxwYXRoIGQ9Ik01MDEuODExIDYyYy02LjYyMyAwLTEzLjIwNCAwLjEzOS0xOS43MjggMC4zNzUtMTMuNjI5IDAuNDg5LTI0LjIwNSAxMS41NzEtMjMuNjg5IDI0LjY5NCAwLjU0MyAxMy4xNTQgMTEuOTgzIDIzLjM5NyAyNS41NjQgMjIuOTAzdi0wLjAzNmM1Ljk0Ni0wLjIwNiAxMS44NzktMC4zNTUgMTcuODQ5LTAuMzU1IDI0OS4zMzEgMC40OCA0NTEuMDE5IDE5NS40MDUgNDUxLjQ2NyA0MzYuNDU3IDAgMTUwLjY3Ny03OC45MDIgMjgzLjM4OC0xOTkuMDc0IDM2MS44NDEtMTEuMjg0IDcuMzczLTE0LjIwOSAyMi4xODYtNi42MDUgMzMuMDk3IDQuNzM5IDYuODAzIDEyLjUxMiAxMC40NTQgMjAuNDM3IDEwLjQ1NCA0LjczNiAwIDkuNTEzLTEuMzEzIDEzLjczNy00LjA0MSAxMzMuMTQyLTg2LjkzNCAyMjAuNzU5LTIzNC4zMjkgMjIwLjc4LTQwMS4zNTMtMC4wMDctMjY3LjMyOC0yMjQuMTU3LTQ4NC4wNDEtNTAwLjczOC00ODQuMDQxek01MjQuMjI2IDUyNS45OTZjMC44NjMgMCAxLjg0Ny0wLjA3OCAyLjkyNC0wLjIzMWwwLjY1Mi0wLjA0NmgxMTAuNjk5YzMuOTI0IDAgNS4xMjEtMS4xOTQgNS4xMjEtNS4xMTN2LTExNi41MzRjMC0xLjM2MSAwLTMuODY4LTUuNjAzLTUuMTIyaC0xMTIuMTY0Yy0yLjI3OCAwLTUuMTEzIDAtNS4xMTMgNy4wNjN2MTE0Ljk3OGwtMC4wNjQgMC4zNzljLTAuMzcxIDIuMTk3LTAuMTIzIDMuNDI3IDAuMjMxIDMuODQ5IDAuMzE5IDAuMzc1IDEuMzU3IDAuNzggMy4zMTYgMC43OHpNNDg2Ljc2NCAxNDAuODUzYy0yMzQuNTkzIDAtNDI0Ljc2NCAxODMuODI0LTQyNC43NjQgNDEwLjU4M3MxOTAuMTY2IDQxMC41NjQgNDI0Ljc1NSA0MTAuNTY0YzIzNC41OTMgMCA0MjQuNzc0LTE4My44MTUgNDI0Ljc3NC00MTAuNTY0IDAtMjI2Ljc1My0xOTAuMTcyLTQxMC41ODMtNDI0Ljc2NC00MTAuNTgzek00MDcuNjAyIDYxOC41MjljLTIuMDM5LTIuNzA4LTQuNDczLTUuODI1LTcuMjc5LTkuMzIxdjE0Ni42MDhsLTAuMDIwIDAuMjFjLTEuMDU4IDExLjQ5My03LjM2NSAyNS41ODUtMzEuNDA2IDI3LjQ2N2wtMC4zNDUgMC4wMjYtMC4zNDUtMC4wMjVjLTI1Ljk5NS0xLjg4NC0zMS40NTItMTYuMjA1LTMxLjQ1Mi0yNy44ODh2LTEwNC43ODFjLTUuNzY3IDE0Ljc4Mi0xMi4wNjcgMjcuMzM4LTE4Ljc3NCAzNy40MDNsLTAuMTA5IDAuMTU3Yy04LjAxNSAxMS4wMDctMTcuNjg3IDE2LjU4Ni0yOC43NDggMTYuNTg2LTQuOTQxIDAtMTAuMTg1LTEuMTQzLTE1LjU4NS0zLjM5N2wtMC40MjgtMC4yMDVjLTExLjU4Ny02LjMwOS0yMi42NjEtMTguOTE0LTkuNjEtNDMuMTE0bDAuMTQyLTAuMjQ1YzI4LjQ4LTQ1LjgxNCA1MS4yODctOTkuNjIyIDY3LjgyOS0xNjAuMDEzaC00NC41MWMtMTIuNzI1IDAtMjcuODkyLTUuNTEzLTI3Ljg5Mi0zMS43OGwwLjAxMi0wLjM0NWMxLjQ0LTE5LjA3NSAxMi4zMDEtMjkuOTQzIDMxLjQxMS0zMS40MjlsMC4zNTYtMC4wMTRoNDUuOTAydi00MC4xOTljLTQuODM5IDAuOTMzLTEwLjkxNSAxLjg1MS0xOC4xNTMgMi43NDVsLTAuNTYzIDAuMDM1aC0xOS4xNGMtMy4wNDAgMC4zNzMtNS45NDMgMC41NjItOC42MzYgMC41NjItMjIuNDYgMC0yOS4zMjQtMTIuOTU5LTMxLjEyOS0yMy44M2wtMC4wNjMtMC4zNzN2LTAuMzc5YzAtMjAuMjQ5IDExLjM0OC0zMy4yMjMgMzIuODE2LTM3LjUxNmwwLjQ0Ni0wLjA5MGgxNS43NGM0Ni4wNTUtNS4xMDYgODEuMDkyLTEwLjI5NyAxMDQuMTM1LTE1LjQyN2wwLjM1Mi0wLjA2NGMyLjYwOS0wLjM3MiA1LjE0Mi0wLjU1OSA3LjUyNy0wLjU1OSAxNi4xNjQgMCAyNy4zOTMgOC42ODQgMzIuNDczIDI1LjExMWwwLjE1MyAwLjQ5NSAwLjAzOCAwLjUxN2MxLjQ0IDE5LjEwNC04LjUxMiAzMS41MTUtMjguNzg2IDM1Ljg5NC01LjE3MyAxLjMtMTAuMzQyIDIuNTk1LTE1LjQ3NyAzLjg2OGwtMC41NDQgMC4xMzVoLTcuNjJ2NDkuMDc3bDMwLjc4OCAwLjAyMGM4LjY5IDAuNzk5IDE4Ljg2MiA0LjYwNiAyNC4xMjEgMTYuNzk5di03MC4yODFjLTEuNDExLTE1Ljc4NyAxLjQzNi0yNy42OTggOC40NjUtMzUuMzk5IDYuNzczLTcuNDIyIDE3LjI0Ni0xMC44NTMgMzEuMTkzLTEwLjE4OGgxNjQuODgzYzE3Ljc1Ni0wLjcxMSAzMC45MzIgMy4zMTIgMzkuMjEgMTEuOTY1IDcuMzYyIDcuNjk5IDEwLjc3NSAxOC45NzMgMTAuMTQ2IDMzLjUxM3YxNjYuODIyYzAuNjYgMTQuNTEzLTIuNDI1IDI1LjQ1OC05LjE3MyAzMi41MjctNS45NjEgNi4yNDYtMTQuNjYyIDkuNDEyLTI1Ljg1OCA5LjQxMi0yLjEyMyAwLTQuMzcyLTAuMTE1LTYuNjg3LTAuMzRoLTE3Ni4zNzhjLTEuMDg3IDAuMDYzLTIuMTYgMC4wOTItMy4xOTUgMC4wOTIgMCAwLTAuMDAxIDAtMC4wMDMgMC0xMC4xNjQgMC0xOC4xMzEtMi45NjEtMjMuNjgyLTguNzk5LTYuNjQ3LTYuOTkxLTkuNjQ4LTE4LjA2MC04LjkxOC0zMi45MDJ2LTY1LjY0M2MtNS4zMjIgMTIuODIzLTE1LjY4NiAxNS45NjctMjQuNTQxIDE1Ljk2N2gtMzAuMzY3djcuNDg0YzMuNTYzIDQuNzYxIDcuMTIyIDkuNTEzIDEwLjY4OSAxNC4yNTIgMjYuMjU3IDMyLjg0MiA0MC44ODMgNTEuMjg0IDQ0LjcxMSA1Ni4zNzdsMC4zNzMgMC41ODVjMTAuMDgzIDE4Ljc1NiA4LjUxIDM0Ljk1My00LjY3NiA0OC4xNDNsLTAuMzc5IDAuMzM4Yy02LjI2NiA1LjAxNS0xMi42MjEgNy41NTgtMTguODg3IDcuNTU4LTguNTg4IDAtMTYuODEtNC43MzItMjQuNDM5LTE0LjA2NGwtMC4xMTMtMC4xNDN6TTU2MC45NzkgNjQ3LjA3NmMtMjMuMzYgNDIuODIxLTUzLjY0NSA4NC4zMDQtOTAuMDMwIDEyMy4zMTlsLTAuNDI1IDAuNGMtOC45OTYgNy40NzctMTguMjQ0IDExLjI2OS0yNy40ODIgMTEuMjY5IDAgMCAwIDAtMC4wMDEgMC04LjM0MSAwLTE2LjY5NC0zLjA5Mi0yNC44MjUtOS4xOWwtMC4zNTktMC4yNy0wLjMwMS0wLjMzNGMtOS4zMDgtMTAuMzU0LTE2LjE2LTI2LjkzMSA0LjA1OC00Ny4xMDkgMjYuNzIxLTI2LjcyMSA1My4yNTUtNjMuNjIzIDc4Ljg2LTEwOS42NzVsMC4xMDItMC4xNzVjNy45NDYtMTIuOTE2IDE3Ljk0OC0xOS40NjUgMjkuNzMxLTE5LjQ2NSA1LjMxNiAwIDExLjAwMiAxLjM3OSAxNi44OTUgNC4wOThsMC40ODkgMC4yNjNjMTguOTAyIDExLjY3MSAyMy40OTUgMjcuODc4IDEzLjI4NCA0Ni44Njl6TTcxMC43NCA3NjcuMzM4bC0wLjM2MyAwLjIxMy0wLjM5NSAwLjE0M2MtNC4yODIgMS41NDUtOC40MDQgMi4zMjktMTIuMjUyIDIuMzI5LTAuMDAxIDAtMC4wMDEgMC0wLjAwMyAwLTEwLjkxMi0wLjAwMS0xOS43Ni02LjAzNy0yNi4yOTctMTcuOTM5LTI4LjE5My00Ni4xMTgtNTIuOTE1LTgzLjIwNC03My40ODItMTEwLjIyNi01LjgzMS03Ljk5NS04LjEwNy0xNS42ODItNi44MTctMjIuOTIyIDEuMzU1LTcuNjEyIDYuNjM0LTE0LjUzMyAxNS42OTEtMjAuNTc4bDAuMTgzLTAuMTE2YzE0LjUwMy04LjcyMiAzMC4zMy02LjYzOCA0Ni4wNTQgNi4yMWwwLjQwMSAwLjMyNyAwLjMxNyAwLjQwOWMyNy4xNTYgMzQuODk3IDUyLjE0OCA3NS4wMTEgNzQuMjg1IDExOS4yMzFsMC4yNTIgMC42MDhjNS44MjYgMTcuNTU3LTAuMjUgMzIuMTg2LTE3LjU3NCA0Mi4zMXoiIHAtaWQ9Ijg3NjMiIGZpbGw9IiMxYWZhMjkiPjwvcGF0aD48L3N2Zz4=">
+    当前积分：
+    <ion-label color="success">{{integralTotal}}分</ion-label>
+  </ion-item>
+  <ion-item lines="none">
+    <img class="img-item" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNTYyMzA5MDk5NTYwIiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9Ijg5NDMiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj48L3N0eWxlPjwvZGVmcz48cGF0aCBkPSJNNTExLjMgODE5LjlDMzUzIDgxOS45IDIxOCA3MTkuNiAxNjYuNiA1NzkuMWMzMS45IDE2MS4yIDE3NC4yIDI4Mi44IDM0NC44IDI4Mi44IDE3MC42IDAgMzEyLjgtMTIxLjYgMzQ0LjgtMjgyLjgtNTEuNiAxNDAuNS0xODYuNSAyNDAuOC0zNDQuOSAyNDAuOHoiIHAtaWQ9Ijg5NDQiIGZpbGw9IiNkODFlMDYiPjwvcGF0aD48cGF0aCBkPSJNNTExLjMgOTE4LjJDMzUzIDkxOC4yIDIxOCA4MTcuOSAxNjYuNiA2NzcuNGMzMS45IDE2MS4yIDE3NC4yIDI4Mi44IDM0NC44IDI4Mi44IDE3MC42IDAgMzEyLjgtMTIxLjYgMzQ0LjgtMjgyLjgtNTEuNiAxNDAuNS0xODYuNSAyNDAuOC0zNDQuOSAyNDAuOHoiIHAtaWQ9Ijg5NDUiIGZpbGw9IiNkODFlMDYiPjwvcGF0aD48cGF0aCBkPSJNNTExLjMgNjQuMmMtOTcgMC0xODQuOSAzOS40LTI0OC41IDEwMy02My42IDYzLjYtMTAyLjkgMTUxLjQtMTAyLjkgMjQ4LjVzMzkuNCAxODQuOSAxMDIuOSAyNDguNmM2My42IDYzLjYgMTUxLjUgMTAyLjkgMjQ4LjUgMTAyLjkgOTcuMSAwIDE4NS0zOS4zIDI0OC41LTEwMi45IDYzLjYtNjMuNiAxMDIuOS0xNTEuNSAxMDIuOS0yNDguNnMtMzkuNC0xODQuOS0xMDIuOS0yNDguNWMtNjMuNS02My42LTE1MS40LTEwMy0yNDguNS0xMDN6IG05OS42IDI3MC40SDUyNXYtMTQuM2MwLTE1LjItMS0yNS4xLTMtMjkuNy0yLTQuOC02LjItNy0xMi43LTctNS4zIDAtOS4yIDItMTEuOCA2LTIuNiA0LTMuOSAxMC4xLTMuOSAxOC4yIDAgMTMuNSAyLjcgMjIuOSA4LjEgMjguMyA1LjIgNS40IDIwLjcgMTUuOSA0Ni40IDMxLjUgMjEuOCAxMy4yIDM2LjcgMjMuMyA0NC42IDMwLjMgNy45IDcgMTQuNiAxNi45IDIwLjEgMjkuOCA1LjQgMTIuOSA4LjIgMjguOSA4LjIgNDcuOSAwIDMwLjYtNy40IDU0LjctMjIuMSA3Mi4yLTE0LjggMTcuNC0zNyAyOC4xLTY2LjQgMzIuM3YzMi4yaC0zOS43di0zMy4yYy0yMi45LTIuMi00My0xMS4xLTYwLjEtMjYuNS0xNy4yLTE1LjMtMjUuNy00Mi4yLTI1LjctODAuNXYtMTYuOGg4NS45djIxYzAgMjMuMSAwLjkgMzcuNCAyLjcgNDMgMS44IDUuNiA2IDguMyAxMi44IDguMyA1LjggMCAxMC4yLTIgMTMtNS43IDIuOS00IDQuMi05LjggNC4yLTE3LjUgMC0xOS4yLTEuMy0zMy00LTQxLjMtMi43LTguMy0xMS45LTE3LjQtMjcuNi0yNy4xLTI2LjMtMTYuNS00NC0yOC42LTUzLjUtMzYuMy05LjQtNy44LTE3LjYtMTguNi0yNC40LTMyLjgtNi45LTEzLjktMTAuMy0yOS44LTEwLjMtNDcuNiAwLTI1LjcgNy4yLTQ1LjggMjEuOC02MC41IDE0LjUtMTQuNiAzNi4zLTIzLjYgNjUuNC0yN3YtMjcuNWgzOS43djI3LjVjMjYuNSAzLjQgNDYuNCAxMi4yIDU5LjYgMjYuNiAxMy4xIDE0LjQgMTkuNyAzNC4zIDE5LjcgNTkuNy0wLjEgMy44LTAuNCA5LjItMS4xIDE2LjV6IG0xMTguMy0xMzYuOGM1NS44IDU1LjcgOTAuMyAxMzIuOCA5MC4zIDIxNy44IDAgODUuMi0zNC41IDE2Mi4yLTkwLjMgMjE3LjktNTUuOCA1NS43LTEzMi44IDkwLjMtMjE3LjkgOTAuM3MtMTYyLjEtMzQuNS0yMTcuOS05MC4zYy01NS43LTU1LjctOTAuMi0xMzIuOC05MC4yLTIxNy45czM0LjUtMTYyLjEgOTAuMi0yMTcuOGM1NS44LTU1LjggMTMyLjgtOTAuMyAyMTcuOS05MC4zczE2Mi4xIDM0LjUgMjE3LjkgOTAuM3oiIHAtaWQ9Ijg5NDYiIGZpbGw9IiNkODFlMDYiPjwvcGF0aD48L3N2Zz4=">
+    已用积分：
+    <ion-label color="danger">{{integralConvertibility}}分</ion-label>
+  </ion-item>
 
-  <div class="title">积分记录</div>
+  <ion-list-header class="title">积分记录</ion-list-header>
   <ion-list>
     <!-- Multi-line sliding item with icon options on both sides -->
     <ion-item-sliding *ngFor="let item of data">
       <ion-item>
         <ion-label>
-          <h2 *ngIf="item.integralRecordType === '1'" style="color: chartreuse;">+{{item.integralRecordNumber}}</h2>
-          <h2 *ngIf="item.integralRecordType === '2'" style="color: red;">-{{item.integralRecordNumber}}</h2>
-          <p *ngIf="item.integralRecordType === '1'">产生</p>
-          <p *ngIf="item.integralRecordType === '2'">消费</p>
+          <h2 *ngIf="item.integralRecordType === '1'" style="color: chartreuse;">+{{item.integralRecordNumber}}分</h2>
+          <h2 *ngIf="item.integralRecordType === '2'" style="color: red;">-{{item.integralRecordNumber}}分</h2>
+          <!--          <p *ngIf="item.integralRecordType === '1'">产生</p>-->
+          <!--          <p *ngIf="item.integralRecordType === '2'">消费</p>-->
         </ion-label>
         <ion-note slot="end">
           {{ item.integralRecordCreationTime | date:'yyyy-MM-dd HH:mm:ss' }}
-<!--          {{item.integralRecordCreationTime}}-->
+          <!--          {{item.integralRecordCreationTime}}-->
         </ion-note>
       </ion-item>
 
-<!--      <ion-item-options side="start">-->
-<!--        <ion-item-option>-->
-<!--          <ion-icon slot="icon-only" name="heart"></ion-icon>-->
-<!--        </ion-item-option>-->
-<!--      </ion-item-options>-->
+      <!--      <ion-item-options side="start">-->
+      <!--        <ion-item-option>-->
+      <!--          <ion-icon slot="icon-only" name="heart"></ion-icon>-->
+      <!--        </ion-item-option>-->
+      <!--      </ion-item-options>-->
 
-<!--      <ion-item-options side="end">-->
-<!--        <ion-item-option (click)="removeItem(item)" color="danger">-->
-<!--          <ion-icon slot="icon-only" name="trash"></ion-icon>-->
-<!--        </ion-item-option>-->
-<!--        &lt;!&ndash;                <ion-item-option>&ndash;&gt;-->
-<!--        &lt;!&ndash;                    <ion-icon slot="icon-only" name="star"></ion-icon>&ndash;&gt;-->
-<!--        &lt;!&ndash;                </ion-item-option>&ndash;&gt;-->
-<!--      </ion-item-options>-->
+      <!--      <ion-item-options side="end">-->
+      <!--        <ion-item-option (click)="removeItem(item)" color="danger">-->
+      <!--          <ion-icon slot="icon-only" name="trash"></ion-icon>-->
+      <!--        </ion-item-option>-->
+      <!--        &lt;!&ndash;                <ion-item-option>&ndash;&gt;-->
+      <!--        &lt;!&ndash;                    <ion-icon slot="icon-only" name="star"></ion-icon>&ndash;&gt;-->
+      <!--        &lt;!&ndash;                </ion-item-option>&ndash;&gt;-->
+      <!--      </ion-item-options>-->
     </ion-item-sliding>
 
   </ion-list>

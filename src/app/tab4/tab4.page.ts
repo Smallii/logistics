@@ -1,10 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
-// 加载本地存储模块
-import { Storage } from '@ionic/storage';
 
-import { LoginPage } from '../login/login.page';
-import {RegisterPage} from '../register/register.page';
 import {Router} from '@angular/router';
 
 @Component({
@@ -25,59 +21,12 @@ export class Tab4Page implements OnInit {
     {title: 'item6', name: 'item6'}
   ];
   constructor(
-      public modalController: ModalController,
       public alertController: AlertController,
       private router: Router) { }
 
   ngOnInit() {
     this.username = localStorage.getItem('username');
     this.monicker = localStorage.getItem('monicker');
-  }
-
-  /**
-   * 打开登录模态窗
-   */
-  async openLogin() {
-    console.log('打开登录页模态框');
-    const value = '张三';
-    const value2 = '20';
-    const modal = await this.modalController.create({
-      component: LoginPage,
-      componentProps: {
-        'prop1': value,
-        'prop2': value2
-      }
-    });
-    await modal.present();
-    // 监听销毁的事件
-    const { data } = await modal.onDidDismiss();
-    console.log(data.result);
-    if (data.result !== 'success') {
-      this.openRegister();
-    } else {
-      this.username = localStorage.getItem('username');
-    }
-  }
-
-  /**
-   * 打开注册模态窗
-   */
-  async openRegister() {
-    console.log('打开注册页模态框');
-    const value = '张三';
-    const value2 = '20';
-    const modal = await this.modalController.create({
-      component: RegisterPage,
-      componentProps: {
-        'prop1': value,
-        'prop2': value2
-      }
-    });
-    await modal.present();
-    // 监听销毁的事件
-    const { data } = await modal.onDidDismiss();
-    console.log(data.result);
-    this.openLogin();
   }
 
   /**

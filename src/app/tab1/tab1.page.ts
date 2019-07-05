@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ModalController, NavParams, LoadingController, ToastController, AlertController} from '@ionic/angular';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
@@ -8,6 +8,16 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page implements OnInit  {
+
+  @ViewChild('slide1') slide1;
+
+  slideOpts = {
+    effect: 'flip',  // 轮播效果
+    autoplay: {
+      delay: 2000,
+    },
+    loop: true
+  };
 
   public token: string;
   public result: any;
@@ -44,6 +54,21 @@ export class Tab1Page implements OnInit  {
     this.findAllCargoType();
   }
 
+  // 手动滑动后轮播图不自动轮播的解决方法
+  slideDidChange() {
+    console.log('111');
+    this.slide1.startAutoplay();
+  }
+
+  /**
+   * 下拉刷新，解决账户token无效或者因为过期而导致的货物类型无法获取
+   */
+  doRefresh(event) {
+    console.log('获取货物类型');
+    this.findAllCargoType();
+    event.target.complete();
+  }
+
   // this.token = localStorage.getItem('token');
 
   segmentChanged(ev: any) {
@@ -59,7 +84,6 @@ export class Tab1Page implements OnInit  {
    */
   async findAllCargoType() {
     const loading = await this.loadingController.create({
-      message: '获取数据...'
     });
     await loading.present();
     this.http.get('/cargo_type/findAllCargoType')
@@ -117,7 +141,7 @@ export class Tab1Page implements OnInit  {
       this.presentAlert('请输入发货人手机号！');
       return false;
     }
-    const waybillShipperPhoneVal = /^[1][3458][012356789][0-9]+$/;
+    const waybillShipperPhoneVal = /^[1][3,4,5,7,8][0-9]{9}$/;
     if (!waybillShipperPhoneVal.test(this.waybill.waybillShipperPhone)) {
       this.presentAlert('发货人手机号格式不正确！');
       return false;
@@ -142,7 +166,7 @@ export class Tab1Page implements OnInit  {
       this.presentAlert('请输入收货人手机号！');
       return false;
     }
-    const waybillGoodsPhoneVal = /^[1][3458][012356789][0-9]+$/;
+    const waybillGoodsPhoneVal = /^[1][3,4,5,7,8][0-9]{9}$/;
     if (!waybillGoodsPhoneVal.test(this.waybill.waybillGoodsPhone)) {
       this.presentAlert('收货人手机号格式不正确！');
       return false;

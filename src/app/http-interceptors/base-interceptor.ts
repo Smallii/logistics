@@ -23,7 +23,7 @@ export class BaseInterceptor implements HttpInterceptor {
         private router: Router) {}
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const url = 'http://localhost:8099';
+        const url = 'http://10.64.3.31:8099';
         if (req.url === '/login' || req.url === '/register') {
             const authReq = req.clone({
                 url: url + req.url

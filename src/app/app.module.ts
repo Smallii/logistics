@@ -22,7 +22,7 @@ import { HttpInterceptorProviders } from './http-interceptors';
   entryComponents: [],
   imports: [
       BrowserModule,
-    IonicModule.forRoot({backButtonText: '返回'}),
+    IonicModule.forRoot({backButtonText: ''}),
     IonicStorageModule.forRoot(
       {name: 'myApp',
         driverOrder: ['sqlite', 'indexeddb', 'websql']}),
