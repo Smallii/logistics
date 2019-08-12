@@ -41,6 +41,14 @@ export class Tab2Page implements OnInit {
     console.log('订单');
   }
 
+  /**
+   * 每次进入页面都触发
+   */
+  ionViewDidEnter() {
+    console.log('进入页面');
+    this.getWaybillList();
+  }
+
     /**
      * 取消订单
      */
@@ -97,18 +105,7 @@ export class Tab2Page implements OnInit {
   doRefresh(event) {
     console.log('Begin async operation');
     this.currentPage = 0;
-    this.http.get('/waybill/findAll?waybillState=' + this.type + '&currentPage=' + this.currentPage + '&pageSize=' + this.pageSize)
-        .subscribe((data) => {
-          console.log('成功', data);
-          this.data = data;
-          this.data = this.data.data.content;
-        }, response => {
-            this.presentToast('服务器出错啦！');
-          // console.log('失败');
-        }, () => {
-          // loading.dismiss();
-          // this.presentToast('请求超时');
-        });
+    this.getWaybillList();
     this.toggleInfiniteScroll();
     event.target.complete();
   }
@@ -143,7 +140,7 @@ export class Tab2Page implements OnInit {
 
   segmentChanged(ev: any) {
     console.log('点击tab页：', ev.detail.value);
-      this.currentPage = 0;
+    this.currentPage = 0;
     this.type = ev.detail.value;
     this.getWaybillList();
   }
@@ -153,7 +150,6 @@ export class Tab2Page implements OnInit {
    */
   async getWaybillList() {
     const loading = await this.loadingController.create({
-      message: '获取数据...'
     });
     await loading.present();
     const page = {

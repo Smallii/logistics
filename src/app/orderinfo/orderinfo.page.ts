@@ -46,11 +46,19 @@ export class OrderinfoPage implements OnInit {
   }
 
   /**
+   * 下拉刷新
+   */
+  doRefresh(event) {
+    console.log('Begin async operation');
+    this.getWaybillInfo();
+    event.target.complete();
+  }
+
+  /**
    * 获取运单详细信息
    */
   async getWaybillInfo() {
     const loading = await this.loadingController.create({
-      message: '获取数据...'
     });
     const id = this.route.snapshot.paramMap.get('waybillNo');
     await loading.present();

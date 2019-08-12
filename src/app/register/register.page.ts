@@ -81,22 +81,29 @@ export class RegisterPage implements OnInit {
     this.http.post('/user/register', this.user)
         .subscribe((data) => {
           this.result = data;
+          console.log(this.result.code);
           if ('301' === this.result.code) {
+            console.log('1111111111');
             loading.dismiss();
             this.presentToast(this.result.msg);
+            return;
           }
           if ('200' === this.result.code) {
+            console.log('2222222222');
             loading.dismiss();
             this.presentToast(this.result.msg);
             // this.closeRegister();
+            return;
           } else {
             loading.dismiss();
             this.presentToast('注册失败');
+            return;
           }
           console.log(data);
         },
         response => {
           loading.dismiss();
+          console.log(response.error.meta.message);
           this.presentToast(response.error.meta.message);
         },
         () => {

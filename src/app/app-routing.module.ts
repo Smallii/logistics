@@ -8,7 +8,9 @@ const routes: Routes = [
   { path: 'versioninfo', loadChildren: './versioninfo/versioninfo.module#VersioninfoPageModule', canActivate: [AuthGuard]},
   { path: 'orderinfo/:waybillNo', loadChildren: './orderinfo/orderinfo.module#OrderinfoPageModule', canActivate: [AuthGuard]},
   { path: 'register', loadChildren: './register/register.module#RegisterPageModule'},
-  { path: 'login', loadChildren: './login/login.module#LoginPageModule'}
+  { path: 'login', loadChildren: './login/login.module#LoginPageModule'},
+  { path: 'express', loadChildren: './express/express.module#ExpressPageModule', canActivate: [AuthGuard] },
+  { path: 'logistics', loadChildren: './logistics/logistics.module#LogisticsPageModule', canActivate: [AuthGuard] }
 ];
 @NgModule({
   imports: [

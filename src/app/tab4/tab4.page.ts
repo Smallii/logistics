@@ -11,7 +11,7 @@ import {Router} from '@angular/router';
 export class Tab4Page implements OnInit {
   public token: string;
   public username: string;
-  private monicker: string;
+  public monicker: string;
   items = [
     {title: 'item1', name: 'item1'},
     {title: 'item2', name: 'item2'},
@@ -22,7 +22,9 @@ export class Tab4Page implements OnInit {
   ];
   constructor(
       public alertController: AlertController,
-      private router: Router) { }
+      private router: Router) {
+    console.log('77777');
+  }
 
   ngOnInit() {
     this.username = localStorage.getItem('username');

@@ -53,7 +53,6 @@ export class IntegralPage implements OnInit {
    */
   async findAllByUserId() {
     const loading = await this.loadingController.create({
-      message: '获取数据...'
     });
     await loading.present();
     this.http.get('/integral_record/findAllByUserId?currentPage=' + this.currentPage + '&pageSize=' + this.pageSize)
@@ -80,7 +79,6 @@ export class IntegralPage implements OnInit {
    */
   async findByUserId() {
     const loading = await this.loadingController.create({
-      message: '获取数据...'
     });
     await loading.present();
     this.http.get('/integral/findAllByUserId')
@@ -114,34 +112,8 @@ export class IntegralPage implements OnInit {
   doRefresh(event) {
     console.log('Begin async operation');
     this.currentPage = 0;
-    this.http.get('/integral/findAllByUserId')
-        .subscribe((data) => {
-          console.log('成功', data);
-          this.integral = data;
-          this.integralTotal = this.integral.data.integralTotal;
-          this.integralConvertibility = this.integral.data.integralConvertibility;
-        }, response => {
-            this.presentToast('服务器出错啦！');
-          // console.log('失败');
-        }, () => {
-          // loading.dismiss();
-          // this.presentToast('请求超时');
-        });
-    this.http.get('/integral_record/findAllByUserId?currentPage=' + this.currentPage + '&pageSize=' + this.pageSize)
-        .subscribe((data) => {
-          console.log('成功', data);
-            this.data = data;
-            this.data = this.data.data.content;
-          this.result = data;
-          this.totalPages = this.result.data.totalPages;
-          this.first = this.result.data.first;
-        }, response => {
-            this.presentToast('服务器出错啦！');
-          // console.log('失败');
-        }, () => {
-          // loading.dismiss();
-          // this.presentToast('请求超时');
-        });
+    this.findByUserId();
+    this.findAllByUserId();
     this.toggleInfiniteScroll();
     event.target.complete();
   }
