@@ -82,6 +82,9 @@ export class BaseInterceptor implements HttpInterceptor {
         if (this.eventSuccess.body.code === '301') {
             return of(event);
         }
+        if (this.eventSuccess.body.code === '0') {
+            return of(event);
+        }
         if (this.eventSuccess.body.meta.status === 800) {
             return of(event);
         }

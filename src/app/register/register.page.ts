@@ -53,12 +53,12 @@ export class RegisterPage implements OnInit {
      * 验证用户名
      */
     if ('' === this.user.username.trim() || null === this.user.username.trim() || undefined === this.user.username.trim()) {
-      this.presentAlert('用户名不能为空！');
+      this.presentAlert('手机号不能为空！');
       return false;
     }
-    const usernameVal = /^[1][3458][012356789][0-9]+$/;
+    const usernameVal = /^[1][3456789][012356789][0-9]+$/;
     if (!usernameVal.test(this.user.username.trim())) {
-      this.presentAlert('用户名格式不正确！');
+      this.presentAlert('手机号格式不正确！');
       return false;
     }
     if ('' === this.user.password.trim() || null === this.user.password.trim() || undefined === this.user.password.trim()) {
@@ -93,6 +93,14 @@ export class RegisterPage implements OnInit {
             loading.dismiss();
             this.presentToast(this.result.msg);
             // this.closeRegister();
+            return;
+          }
+          if ('0' === this.result.code) {
+            console.log('2222222222');
+            loading.dismiss();
+            this.presentToast(this.result.msg);
+            // this.closeRegister();
+            this.goLogin();
             return;
           } else {
             loading.dismiss();

@@ -102,15 +102,15 @@ export class ExpressPage implements OnInit {
       this.presentAlert('货物名称过长！');
       return false;
     }
-    if ('' === this.waybill.waybillEstimatedWeight.trim()) {
-      this.presentAlert('请输入货物预计重量！');
-      return false;
-    }
-    const waybillEstimatedWeightVal = /^[0-9]+$/;
-    if (!waybillEstimatedWeightVal.test(this.waybill.waybillEstimatedWeight)) {
-      this.presentAlert('货物预计重量格式不正确！');
-      return false;
-    }
+    // if ('' === this.waybill.waybillEstimatedWeight.trim()) {
+    //   this.presentAlert('请输入货物预计重量！');
+    //   return false;
+    // }
+    // const waybillEstimatedWeightVal = /^[0-9]+$/;
+    //     // if (!waybillEstimatedWeightVal.test(this.waybill.waybillEstimatedWeight)) {
+    //     //   this.presentAlert('货物预计重量格式不正确！');
+    //     //   return false;
+    //     // }
     if ('' === this.waybill.waybillShipperName.trim()) {
       this.presentAlert('请输入发货人姓名！');
       return false;

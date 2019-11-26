@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {AlertController, LoadingController, ToastController} from '@ionic/angular';
+import {AlertController, LoadingController, NavController, ToastController} from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Component({
@@ -21,7 +21,8 @@ export class LoginPage implements OnInit {
       public loadingController: LoadingController,
       public toastController: ToastController,
       private router: Router,
-      public alertController: AlertController
+      public alertController: AlertController,
+      public nav: NavController
   ) { }
 
   ngOnInit() {
@@ -117,7 +118,8 @@ export class LoginPage implements OnInit {
                 console.log(this.result.data.username);
                 localStorage.setItem('username', this.result.data.username);
                 localStorage.setItem('monicker', this.result.data.monicker);
-                this.router.navigate(['/']);
+                // this.router.navigate(['/']);
+                this.nav.navigateRoot('/tabs/tab1');
               } else {
                 this.presentToast(this.result.meta.message);
                 loading.dismiss();

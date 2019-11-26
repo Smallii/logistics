@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import {ModalController} from '@ionic/angular';
+import {ModalController, NavController} from '@ionic/angular';
 import {LoginPage} from '../login/login.page';
 import {RegisterPage} from '../register/register.page';
 
@@ -9,7 +9,10 @@ import {RegisterPage} from '../register/register.page';
 })
 export class AuthGuard implements CanActivate  {
   isLoggedIn: string;
-  constructor(private router: Router, public modalController: ModalController) {}
+  constructor(
+      private router: Router,
+      public modalController: ModalController,
+      public nav: NavController) {}
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
@@ -24,7 +27,8 @@ export class AuthGuard implements CanActivate  {
     if ('' === this.isLoggedIn || 'null' === this.isLoggedIn || null === this.isLoggedIn || undefined === this.isLoggedIn) {
       console.log('token无效，跳转到登录页面');
       // Navigate to the login page with extras
-      this.router.navigate(['/login']);
+      // this.router.navigate(['/login']);
+      this.nav.navigateRoot('/login');
       // 打开登录模态窗
       // this.openLogin();
       return false;
